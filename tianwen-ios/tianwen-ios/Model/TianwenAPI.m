@@ -21,4 +21,25 @@
     return responseDict;
 }
 
++(NSDictionary *)ProductList:(NSString *)type forAccount:(AliyunAccountModel *)account{
+    NSDictionary*requestParams=@{@"region_list":[account regions]};
+    NSDictionary*responseDict=[APIClient callTianwenApi:[NSString stringWithFormat:@"ProductList/%@",type] withPostData:requestParams forAccount:account];
+    if(!responseDict){
+        return nil;
+    }
+    return responseDict;
+}
+
++(NSDictionary*)Product:(NSString*)type instance:(NSString*)instance_id inRegion:(NSString*)region_id forAccount:(AliyunAccountModel*)account{
+    NSDictionary*requestParams=@{
+                                 @"region_id":region_id,
+                                 @"instance_id":instance_id
+                                 };
+    NSDictionary*responseDict=[APIClient callTianwenApi:[NSString stringWithFormat:@"Product/%@",type] withPostData:requestParams forAccount:account];
+    if(!responseDict){
+        return nil;
+    }
+    return responseDict;
+}
+
 @end

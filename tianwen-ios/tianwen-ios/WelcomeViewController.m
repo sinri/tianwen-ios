@@ -11,6 +11,7 @@
 #import "SettingsViewController.h"
 #import "TianwenAPI.h"
 #import "TianwenWarningInfoView.h"
+#import "AccountProductViewController.h"
 
 @interface WelcomeViewController ()
 
@@ -25,8 +26,12 @@
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     [[self navigationItem]setTitle:@"Tianwen"];
-    UIBarButtonItem*settingBarItem=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(onSettingBarItem:)];
+    
+    UIBarButtonItem*settingBarItem=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(onSettingBarItem:)];
     [[self navigationItem]setRightBarButtonItem:settingBarItem];
+    
+    UIBarButtonItem*productsBarItem=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:(UIBarButtonSystemItemOrganize) target:self action:@selector(onProductsBarItem:)];
+    [[self navigationItem]setLeftBarButtonItem:productsBarItem];
     
     _warningReportView=[[TianwenMultiWarningInfoView alloc]initWithFrame:(CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height))];
     [_warningReportView setDelegate:self];
@@ -52,6 +57,11 @@
 -(void)onSettingBarItem:(id)sender{
     SettingsViewController * svc=[[SettingsViewController alloc]init];
     [[self navigationController]pushViewController:svc animated:YES];
+}
+
+-(void)onProductsBarItem:(id)sender{
+    AccountProductViewController * apvc=[[AccountProductViewController alloc]initWithStyle:(UITableViewStyleGrouped)];
+    [[self navigationController]pushViewController:apvc animated:YES];
 }
 
 -(NSArray<AliyunAccountModel *> *)reloadAccountsForTianwenMultiWarningInfoView:(TianwenMultiWarningInfoView *)target{

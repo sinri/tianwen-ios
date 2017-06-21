@@ -13,4 +13,8 @@
 
 +(NSDictionary*)CloudAssetsDoctor:(NSString*)plan forAccount:(AliyunAccountModel*)account;
 
++(NSDictionary*)ProductList:(NSString*)type forAccount:(AliyunAccountModel*)account;
+
++(NSDictionary*)Product:(NSString*)type instance:(NSString*)instance_id inRegion:(NSString*)region_id forAccount:(AliyunAccountModel*)account;
+
 @end
