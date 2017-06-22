@@ -33,6 +33,11 @@
     
     self.navigationItem.title=[NSString stringWithFormat:@"Loading %@",_instanceId];
     
+    UIActivityIndicatorView*aiv=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleGray)];
+    [aiv startAnimating];
+    UIBarButtonItem * refreshButton=[[UIBarButtonItem alloc]initWithCustomView:aiv];
+    [self.navigationItem setRightBarButtonItem:refreshButton];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -80,7 +85,6 @@
     UIActivityIndicatorView*aiv=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleGray)];
     [aiv startAnimating];
     UIBarButtonItem * refreshButton=[[UIBarButtonItem alloc]initWithCustomView:aiv];
-    //[[UIBarButtonItem alloc]initWithTitle:@"..." style:(UIBarButtonItemStylePlain) target:nil action:nil];
     [self.navigationItem setRightBarButtonItem:refreshButton];
     
     [self performSelectorInBackground:@selector(loadDataInBackground) withObject:nil];
@@ -89,7 +93,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//#warning Incomplete implementation, return the number of sections
+    //#warning Incomplete implementation, return the number of sections
     if(!_productInfo){
         return 1;
     }
@@ -97,19 +101,23 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//#warning Incomplete implementation, return the number of rows
+    //#warning Incomplete implementation, return the number of rows
     if(!_productInfo){
         return 1;
     }
     if(section==0){
-        return 13;
+        return 14;
     }else if(section==1){
         return 1;
     }else if(section==2){
         return 1;
     }else if(section==3){
-        return [[[_productInfo objectForKey:@"cms"]objectForKey:@"disk"]count];
-//        return 1;
+        id disk=[[_productInfo objectForKey:@"cms"]objectForKey:@"disk"];
+        if([disk isKindOfClass:[NSArray class]]){
+            return [disk count];
+        }else{
+            return 1;
+        }
     }
     return 0;
 }
@@ -207,10 +215,18 @@
                 //RegionId
                 itemText=@"RegionId";
                 detailText=[ecs objectForKey:@"RegionId"];
-
+                
             }
                 break;
             case 9:
+            {
+                //RegionId
+                itemText=@"ZoneId";
+                detailText=[ecs objectForKey:@"ZoneId"];
+                
+            }
+                break;
+            case 10:
             {
                 //Status
                 itemText=@"Status";
@@ -218,7 +234,7 @@
                 
             }
                 break;
-            case 10:
+            case 11:
             {
                 //OperationLocks
                 itemText=@"OperationLocks";
@@ -226,7 +242,7 @@
                 detailText=[ips componentsJoinedByString:@","];
             }
                 break;
-            case 11:
+            case 12:
             {
                 //CreationTime
                 itemText=@"CreationTime";
@@ -234,7 +250,7 @@
                 
             }
                 break;
-            case 12:
+            case 13:
             {
                 //ExpiredTime
                 itemText=@"ExpiredTime";
@@ -248,20 +264,33 @@
         }
     }else if(indexPath.section==1){
         NSDictionary * cms=[_productInfo objectForKey:@"cms"];
-        NSDictionary*cpu=[cms objectForKey:@"cpu"];
+        id cpu=[cms objectForKey:@"cpu"];
         itemText=@"Average";
-        detailText=[NSString stringWithFormat:@"%@%%",[cpu objectForKey:@"Average"]];
+        if([cpu isKindOfClass:[NSDictionary class]]){
+            detailText=[NSString stringWithFormat:@"%@%%",[cpu objectForKey:@"Average"]];
+        }else if([cpu isKindOfClass:[NSString class]]){
+            detailText=cpu;
+        }
     }else if(indexPath.section==2){
         NSDictionary * cms=[_productInfo objectForKey:@"cms"];
-        NSDictionary*memory=[cms objectForKey:@"memory"];
+        id memory=[cms objectForKey:@"memory"];
         itemText=@"Average";
-        detailText=[NSString stringWithFormat:@"%@%%",[memory objectForKey:@"Average"]];
+        if([memory isKindOfClass:[NSDictionary class]]){
+            detailText=[NSString stringWithFormat:@"%@%%",[memory objectForKey:@"Average"]];
+        }else if([memory isKindOfClass:[NSString class]]){
+            detailText=memory;
+        }
     }else if(indexPath.section==3){
         NSDictionary * cms=[_productInfo objectForKey:@"cms"];
-        NSArray*disk=[[cms objectForKey:@"disk"]allValues];
-        NSDictionary*diskPart=[disk objectAtIndex:indexPath.row];
-        itemText=[diskPart objectForKey:@"diskname"];
-        detailText=[NSString stringWithFormat:@"%@%%",[diskPart objectForKey:@"Average"]];
+        id disk=[[cms objectForKey:@"disk"]allValues];
+        if([disk isKindOfClass:[NSArray class]]){
+            NSDictionary*diskPart=[disk objectAtIndex:indexPath.row];
+            itemText=[diskPart objectForKey:@"diskname"];
+            detailText=[NSString stringWithFormat:@"%@%%",[diskPart objectForKey:@"Average"]];
+        }else{
+            itemText=disk;
+            detailText=@"";
+        }
     }
     
     [[cell textLabel]setText:itemText];
@@ -272,38 +301,38 @@
 
 
 /*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
 
 /*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }
+ }
+ */
 
 /*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+ }
+ */
 
 /*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     switch (section) {
@@ -326,14 +355,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
 
@@ -352,7 +381,7 @@
  InternetMaxBandwidthOut : int
  DeviceAvailable : bool
  SecurityGroupIds: array of string
-
+ 
  CreationTime :  ISO8601 Datetime
  ExpiredTime : ISO8601 Datetime
  Description : string
