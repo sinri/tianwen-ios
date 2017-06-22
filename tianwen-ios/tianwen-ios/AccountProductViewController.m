@@ -9,9 +9,9 @@
 #import "AccountProductViewController.h"
 #import "TianwenAPI.h"
 
-#import "ECSDetailViewController.h"
-#import "RDSDetailViewController.h"
-#import "REDISDetailViewController.h"
+#import "DynamicECSDetailViewController.h"
+#import "DynamicRDSDetailViewController.h"
+#import "DynamicREDISDetailViewController.h"
 
 @interface AccountProductViewController ()
 
@@ -203,15 +203,16 @@
         
         NSString*product_type=[item objectForKey:@"_PRODUCT_TYPE"];
         if([product_type isEqualToString:@"ECS"]){
-            ECSDetailViewController*ecsVC=[[ECSDetailViewController alloc]initWithInstanceId:[item objectForKey:@"InstanceId"] andRegionId:[item objectForKey:@"RegionId"] forAccount:[_accounts objectAtIndex:indexPath.section]];
-            
+            //ECSDetailViewController*ecsVC=[[ECSDetailViewController alloc]initWithInstanceId:[item objectForKey:@"InstanceId"] andRegionId:[item objectForKey:@"RegionId"] forAccount:[_accounts objectAtIndex:indexPath.section]];
+            DynamicECSDetailViewController*ecsVC=[[DynamicECSDetailViewController alloc]initWithInstanceId:[item objectForKey:@"InstanceId"] andRegionId:[item objectForKey:@"RegionId"] forAccount:[_accounts objectAtIndex:indexPath.section]];
             [[self navigationController]pushViewController:ecsVC animated:YES];
         }else if([product_type isEqualToString:@"RDS"]){
-            RDSDetailViewController*rdsVC=[[RDSDetailViewController alloc]initWithInstanceId:[item objectForKey:@"DBInstanceId"] andRegionId:[item objectForKey:@"RegionId"] forAccount:[_accounts objectAtIndex:indexPath.section]];
-            
+            //RDSDetailViewController*rdsVC=[[RDSDetailViewController alloc]initWithInstanceId:[item objectForKey:@"DBInstanceId"] andRegionId:[item objectForKey:@"RegionId"] forAccount:[_accounts objectAtIndex:indexPath.section]];
+            DynamicRDSDetailViewController*rdsVC=[[DynamicRDSDetailViewController alloc]initWithInstanceId:[item objectForKey:@"DBInstanceId"] andRegionId:[item objectForKey:@"RegionId"] forAccount:[_accounts objectAtIndex:indexPath.section]];
             [[self navigationController]pushViewController:rdsVC animated:YES];
         }else if([product_type isEqualToString:@"REDIS"]){
-            REDISDetailViewController*redisVC=[[REDISDetailViewController alloc]initWithInstanceId:[item objectForKey:@"instanceId"] andRegionId:[item objectForKey:@"RegionId"] forAccount:[_accounts objectAtIndex:indexPath.section]];
+            //REDISDetailViewController*redisVC=[[REDISDetailViewController alloc]initWithInstanceId:[item objectForKey:@"instanceId"] andRegionId:[item objectForKey:@"RegionId"] forAccount:[_accounts objectAtIndex:indexPath.section]];
+            DynamicREDISDetailViewController*redisVC=[[DynamicREDISDetailViewController alloc]initWithInstanceId:[item objectForKey:@"instanceId"] andRegionId:[item objectForKey:@"RegionId"] forAccount:[_accounts objectAtIndex:indexPath.section]];
             [[self navigationController]pushViewController:redisVC animated:YES];
         }
     }

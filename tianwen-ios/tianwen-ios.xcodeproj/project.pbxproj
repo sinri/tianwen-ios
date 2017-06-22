@@ -30,9 +30,12 @@
 		2F422C8F1EF904D000AB0C3E /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422C7A1EF904D000AB0C3E /* UIScrollView+MJRefresh.m */; };
 		2F422C901EF904D000AB0C3E /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422C7C1EF904D000AB0C3E /* UIView+MJExtension.m */; };
 		2F422C941EFA146A00AB0C3E /* AccountProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422C931EFA146A00AB0C3E /* AccountProductViewController.m */; };
-		2F422C971EFA569600AB0C3E /* ECSDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422C961EFA569600AB0C3E /* ECSDetailViewController.m */; };
-		2F422C9A1EFA585A00AB0C3E /* RDSDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422C991EFA585A00AB0C3E /* RDSDetailViewController.m */; };
-		2F422C9D1EFA586D00AB0C3E /* REDISDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422C9C1EFA586D00AB0C3E /* REDISDetailViewController.m */; };
+		2F422CA01EFB676B00AB0C3E /* DynamicTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422C9F1EFB676B00AB0C3E /* DynamicTableViewController.m */; };
+		2F422CA31EFB6BA600AB0C3E /* DynamicTableSectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422CA21EFB6BA600AB0C3E /* DynamicTableSectionInfo.m */; };
+		2F422CA61EFB6BBE00AB0C3E /* DynamicTableCellInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422CA51EFB6BBE00AB0C3E /* DynamicTableCellInfo.m */; };
+		2F422CAA1EFB78CB00AB0C3E /* DynamicECSDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422CA91EFB78CB00AB0C3E /* DynamicECSDetailViewController.m */; };
+		2F422CAD1EFB9A6F00AB0C3E /* DynamicRDSDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422CAC1EFB9A6F00AB0C3E /* DynamicRDSDetailViewController.m */; };
+		2F422CB01EFBC67700AB0C3E /* DynamicREDISDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422CAF1EFBC67700AB0C3E /* DynamicREDISDetailViewController.m */; };
 		2F9FFDEF1EF678F20042641C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FFDEE1EF678F20042641C /* main.m */; };
 		2F9FFDF21EF678F20042641C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FFDF11EF678F20042641C /* AppDelegate.m */; };
 		2F9FFDFA1EF678F20042641C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F9FFDF91EF678F20042641C /* Assets.xcassets */; };
@@ -94,12 +97,18 @@
 		2F422C7C1EF904D000AB0C3E /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
 		2F422C921EFA146A00AB0C3E /* AccountProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountProductViewController.h; sourceTree = "<group>"; };
 		2F422C931EFA146A00AB0C3E /* AccountProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountProductViewController.m; sourceTree = "<group>"; };
-		2F422C951EFA569600AB0C3E /* ECSDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSDetailViewController.h; sourceTree = "<group>"; };
-		2F422C961EFA569600AB0C3E /* ECSDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSDetailViewController.m; sourceTree = "<group>"; };
-		2F422C981EFA585A00AB0C3E /* RDSDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDSDetailViewController.h; sourceTree = "<group>"; };
-		2F422C991EFA585A00AB0C3E /* RDSDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDSDetailViewController.m; sourceTree = "<group>"; };
-		2F422C9B1EFA586D00AB0C3E /* REDISDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REDISDetailViewController.h; sourceTree = "<group>"; };
-		2F422C9C1EFA586D00AB0C3E /* REDISDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REDISDetailViewController.m; sourceTree = "<group>"; };
+		2F422C9E1EFB676B00AB0C3E /* DynamicTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DynamicTableViewController.h; path = Components/DynamicTableViewController.h; sourceTree = "<group>"; };
+		2F422C9F1EFB676B00AB0C3E /* DynamicTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DynamicTableViewController.m; path = Components/DynamicTableViewController.m; sourceTree = "<group>"; };
+		2F422CA11EFB6BA600AB0C3E /* DynamicTableSectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DynamicTableSectionInfo.h; path = Components/DynamicTableSectionInfo.h; sourceTree = "<group>"; };
+		2F422CA21EFB6BA600AB0C3E /* DynamicTableSectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DynamicTableSectionInfo.m; path = Components/DynamicTableSectionInfo.m; sourceTree = "<group>"; };
+		2F422CA41EFB6BBE00AB0C3E /* DynamicTableCellInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DynamicTableCellInfo.h; path = Components/DynamicTableCellInfo.h; sourceTree = "<group>"; };
+		2F422CA51EFB6BBE00AB0C3E /* DynamicTableCellInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DynamicTableCellInfo.m; path = Components/DynamicTableCellInfo.m; sourceTree = "<group>"; };
+		2F422CA81EFB78CB00AB0C3E /* DynamicECSDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicECSDetailViewController.h; sourceTree = "<group>"; };
+		2F422CA91EFB78CB00AB0C3E /* DynamicECSDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DynamicECSDetailViewController.m; sourceTree = "<group>"; };
+		2F422CAB1EFB9A6F00AB0C3E /* DynamicRDSDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicRDSDetailViewController.h; sourceTree = "<group>"; };
+		2F422CAC1EFB9A6F00AB0C3E /* DynamicRDSDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DynamicRDSDetailViewController.m; sourceTree = "<group>"; };
+		2F422CAE1EFBC67700AB0C3E /* DynamicREDISDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicREDISDetailViewController.h; sourceTree = "<group>"; };
+		2F422CAF1EFBC67700AB0C3E /* DynamicREDISDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DynamicREDISDetailViewController.m; sourceTree = "<group>"; };
 		2F9FFDEA1EF678F20042641C /* tianwen-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tianwen-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F9FFDEE1EF678F20042641C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2F9FFDF01EF678F20042641C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -236,14 +245,27 @@
 			children = (
 				2F422C921EFA146A00AB0C3E /* AccountProductViewController.h */,
 				2F422C931EFA146A00AB0C3E /* AccountProductViewController.m */,
-				2F422C951EFA569600AB0C3E /* ECSDetailViewController.h */,
-				2F422C961EFA569600AB0C3E /* ECSDetailViewController.m */,
-				2F422C981EFA585A00AB0C3E /* RDSDetailViewController.h */,
-				2F422C991EFA585A00AB0C3E /* RDSDetailViewController.m */,
-				2F422C9B1EFA586D00AB0C3E /* REDISDetailViewController.h */,
-				2F422C9C1EFA586D00AB0C3E /* REDISDetailViewController.m */,
+				2F422CA81EFB78CB00AB0C3E /* DynamicECSDetailViewController.h */,
+				2F422CA91EFB78CB00AB0C3E /* DynamicECSDetailViewController.m */,
+				2F422CAB1EFB9A6F00AB0C3E /* DynamicRDSDetailViewController.h */,
+				2F422CAC1EFB9A6F00AB0C3E /* DynamicRDSDetailViewController.m */,
+				2F422CAE1EFBC67700AB0C3E /* DynamicREDISDetailViewController.h */,
+				2F422CAF1EFBC67700AB0C3E /* DynamicREDISDetailViewController.m */,
 			);
 			name = DetailController;
+			sourceTree = "<group>";
+		};
+		2F422CA71EFB6BC100AB0C3E /* DynamicTable */ = {
+			isa = PBXGroup;
+			children = (
+				2F422C9E1EFB676B00AB0C3E /* DynamicTableViewController.h */,
+				2F422C9F1EFB676B00AB0C3E /* DynamicTableViewController.m */,
+				2F422CA11EFB6BA600AB0C3E /* DynamicTableSectionInfo.h */,
+				2F422CA21EFB6BA600AB0C3E /* DynamicTableSectionInfo.m */,
+				2F422CA41EFB6BBE00AB0C3E /* DynamicTableCellInfo.h */,
+				2F422CA51EFB6BBE00AB0C3E /* DynamicTableCellInfo.m */,
+			);
+			name = DynamicTable;
 			sourceTree = "<group>";
 		};
 		2F9FFDE11EF678F10042641C = {
@@ -319,6 +341,7 @@
 		2F9FFE1B1EF79A700042641C /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				2F422CA71EFB6BC100AB0C3E /* DynamicTable */,
 				2F9FFE1C1EF79AAD0042641C /* AliyunRegionSwitchGroup.h */,
 				2F9FFE1D1EF79AAD0042641C /* AliyunRegionSwitchGroup.m */,
 				2F422C481EF8BF1A00AB0C3E /* TianwenWarningInfoView.h */,
@@ -402,26 +425,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F422C831EF904D000AB0C3E /* MJRefreshAutoNormalFooter.m in Sources */,
-				2F422C9D1EFA586D00AB0C3E /* REDISDetailViewController.m in Sources */,
-				2F422C9A1EFA585A00AB0C3E /* RDSDetailViewController.m in Sources */,
 				2F422C7E1EF904D000AB0C3E /* MJRefreshBackFooter.m in Sources */,
 				2F422C821EF904D000AB0C3E /* MJRefreshAutoGifFooter.m in Sources */,
+				2F422CAA1EFB78CB00AB0C3E /* DynamicECSDetailViewController.m in Sources */,
+				2F422CAD1EFB9A6F00AB0C3E /* DynamicRDSDetailViewController.m in Sources */,
 				2F422C861EF904D000AB0C3E /* MJRefreshBackNormalFooter.m in Sources */,
 				2F422C801EF904D000AB0C3E /* MJRefreshFooter.m in Sources */,
 				2F422C8C1EF904D000AB0C3E /* MJRefreshConst.m in Sources */,
 				2F422C941EFA146A00AB0C3E /* AccountProductViewController.m in Sources */,
 				2F9FFDF21EF678F20042641C /* AppDelegate.m in Sources */,
-				2F422C971EFA569600AB0C3E /* ECSDetailViewController.m in Sources */,
+				2F422CB01EFBC67700AB0C3E /* DynamicREDISDetailViewController.m in Sources */,
 				2F422C891EF904D000AB0C3E /* MJRefreshNormalHeader.m in Sources */,
 				2F422C901EF904D000AB0C3E /* UIView+MJExtension.m in Sources */,
 				2F422C8F1EF904D000AB0C3E /* UIScrollView+MJRefresh.m in Sources */,
 				2F422C7F1EF904D000AB0C3E /* MJRefreshComponent.m in Sources */,
 				2F422C4A1EF8BF1A00AB0C3E /* TianwenWarningInfoView.m in Sources */,
+				2F422CA61EFB6BBE00AB0C3E /* DynamicTableCellInfo.m in Sources */,
 				2F422C851EF904D000AB0C3E /* MJRefreshBackGifFooter.m in Sources */,
 				2F9FFE141EF6C8A80042641C /* AddAccountViewController.m in Sources */,
 				2F9FFE091EF680980042641C /* WelcomeViewController.m in Sources */,
 				2F9FFE0D1EF681590042641C /* AliyunAccountModel.m in Sources */,
 				2F422C881EF904D000AB0C3E /* MJRefreshGifHeader.m in Sources */,
+				2F422CA31EFB6BA600AB0C3E /* DynamicTableSectionInfo.m in Sources */,
 				2F422C8D1EF904D000AB0C3E /* NSBundle+MJRefresh.m in Sources */,
 				2F9FFE101EF6ABA80042641C /* SettingsViewController.m in Sources */,
 				2F9FFE1A1EF795170042641C /* TianwenAPI.m in Sources */,
@@ -436,6 +461,7 @@
 				2F422C4D1EF8D04400AB0C3E /* TianwenMultiWarningInfoView.m in Sources */,
 				2F9FFE171EF7620C0042641C /* APIClient.m in Sources */,
 				2F422C8E1EF904D000AB0C3E /* UIScrollView+MJExtension.m in Sources */,
+				2F422CA01EFB676B00AB0C3E /* DynamicTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
