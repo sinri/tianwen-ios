@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TianwenMultiWarningInfoView.h"
+//#import "TianwenMultiWarningInfoView.h"
+#import "DynamicTianwenWarningView.h"
 
 @interface WelcomeViewController : UIViewController
-<TianwenMultiWarningInfoViewDelegate>
+<DynamicTianwenWarningViewDelegate>
 
 //@property UIScrollView * reportContainer;
-@property TianwenMultiWarningInfoView * warningReportView;
+//@property TianwenMultiWarningInfoView * warningReportView;
+@property DynamicTianwenWarningView * warningReportView;
 
 @end

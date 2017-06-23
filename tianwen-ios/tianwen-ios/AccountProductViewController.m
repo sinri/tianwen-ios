@@ -15,6 +15,8 @@
 
 @interface AccountProductViewController ()
 
+@property NSInteger refreshSemaphore;
+
 @end
 
 @implementation AccountProductViewController
@@ -30,6 +32,7 @@
                                              }
              ];
         }
+        _refreshSemaphore=0;
     }
     return self;
 }
@@ -45,16 +48,25 @@
     
     self.navigationItem.title=@"Products";
     
-    for (NSUInteger i=0; i<[_accounts count]; i++) {
-        [self performSelectorInBackground:@selector(loadProductListDataInBackground:) withObject:@(i)];
-    }
-    
     [self.tableView reloadData];
+    
+    [self reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)reloadData{
+    if(_refreshSemaphore>0)return;
+    for (NSUInteger i=0; i<[_accounts count]; i++) {
+        [self performSelectorInBackground:@selector(loadProductListDataInBackground:) withObject:@(i)];
+        //dispatch_sync(dispatch_get_main_queue(), ^{
+            _refreshSemaphore+=1;
+        //});
+    }
+    [self refreshRightBarButton];
 }
 
 -(void)loadProductListDataInBackground:(NSNumber*)index{
@@ -103,7 +115,23 @@
              ];
         }
     }
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        _refreshSemaphore-=1;
+    });
     [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(refreshRightBarButton) withObject:nil waitUntilDone:NO];
+}
+
+-(void)refreshRightBarButton{
+    if(_refreshSemaphore>0){
+        UIActivityIndicatorView*aiv=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleGray)];
+        [aiv startAnimating];
+        UIBarButtonItem * refreshButton=[[UIBarButtonItem alloc]initWithCustomView:aiv];
+        [self.navigationItem setRightBarButtonItem:refreshButton];
+    }else{
+        UIBarButtonItem * refrsshButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:(UIBarButtonSystemItemRefresh) target:self action:@selector(reloadData)];
+        self.navigationItem.rightBarButtonItem=refrsshButton;
+    }
 }
 
 #pragma mark - Table view data source
@@ -135,6 +163,9 @@
         [[cell textLabel]setText:[dict objectForKey:@"error"]];
         [[cell detailTextLabel]setText:@""];
         UIImage*image=[UIImage imageNamed:@"OTHER ISSUE"];
+        if([[dict objectForKey:@"error"]isEqualToString:@"Loading"]){
+            image=[UIImage imageNamed:@"LOADING"];
+        }
         [[cell imageView]setImage:image];
         [cell setAccessoryType:(UITableViewCellAccessoryNone)];
     }else{

@@ -28,6 +28,7 @@
         _sectionKey = sectionKey;
         _cells=[@[] mutableCopy];
         _title=nil;
+        _footer=nil;
     }
     return self;
 }

@@ -18,9 +18,13 @@
 @property UITableViewCellStyle cellStyle;
 //@property (readonly) NSInteger cellStyle;
 
+@property UITableViewCellAccessoryType cellAccessoryType;
+
 @property NSString * _Nullable text;
 @property NSString * _Nullable detailText;
 @property NSString * _Nullable imageName;
+
+@property void (^ _Nullable onSelect)(DynamicTableCellInfo* _Nonnull cellInfo, id _Nullable otherInfo);
 
 -(instancetype _Nonnull)initWithCellKey:(NSString*_Nonnull)cellKey andCellReusableId:(NSString*_Nonnull)cellReusableId;
 

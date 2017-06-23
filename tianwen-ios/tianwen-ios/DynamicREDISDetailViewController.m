@@ -103,6 +103,9 @@
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
     [cellInfo setText:@"instanceId"];
     [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[redis objectForKey:@"instanceId"]]];
+    [cellInfo setOnSelect:^(DynamicTableCellInfo* _Nonnull cellInfo, id _Nullable otherInfo){
+        NSLog(@"in block on select: %@",cellInfo);
+    }];
     
     [redisSection appendCell:cellInfo];
     

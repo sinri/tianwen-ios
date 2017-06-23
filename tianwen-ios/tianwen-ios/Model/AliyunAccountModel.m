@@ -90,9 +90,15 @@
     [accounts setObject:[model toJson] forKey:[model computeAliyunAccountModelKey]];
     json=[[NSString alloc]initWithData:[NSJSONSerialization dataWithJSONObject:accounts options:(NSJSONWritingPrettyPrinted) error:nil] encoding:NSUTF8StringEncoding];
     [[NSUserDefaults standardUserDefaults]setObject:json forKey:@"tianwen_accounts"];
+#ifdef DEBUG
+    //NSLog(@"addAccountToStore: %@",json);
+#endif
 }
 +(NSDictionary<NSString*,AliyunAccountModel*>*)storedAccounts{
     NSString*json=[[NSUserDefaults standardUserDefaults]objectForKey:@"tianwen_accounts"];
+#ifdef DEBUG
+    //NSLog(@"storedAccounts: %@",json);
+#endif
     if(json){
         NSDictionary * d= [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding] options:(NSJSONReadingMutableLeaves) error:nil];
         NSMutableDictionary * md=[@{} mutableCopy];

@@ -8,6 +8,7 @@
 
 #import "DynamicECSDetailViewController.h"
 #import "TianwenAPI.h"
+#import "TianwenHelper.h"
 
 @interface DynamicECSDetailViewController ()
 
@@ -167,13 +168,13 @@
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"CreationTime" andCellReusableId:ecs_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
     [cellInfo setText:@"CreationTime"];
-    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[ecs objectForKey:@"CreationTime"]]];
+    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[TianwenHelper localizedDateStringFromISO8601String:[ecs objectForKey:@"CreationTime"]]]];
     [ecsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"ExpiredTime" andCellReusableId:ecs_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
     [cellInfo setText:@"ExpiredTime"];
-    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[ecs objectForKey:@"ExpiredTime"]]];
+    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[TianwenHelper localizedDateStringFromISO8601String:[ecs objectForKey:@"ExpiredTime"]]]];
     [ecsSectionInfo appendCell:cellInfo];
     
     [self appendSection:ecsSectionInfo];

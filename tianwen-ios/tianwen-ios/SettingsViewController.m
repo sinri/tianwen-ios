@@ -9,6 +9,10 @@
 #import "SettingsViewController.h"
 #import "AliyunAccountModel.h"
 #import "AddAccountViewController.h"
+#import "AboutViewController.h"
+
+#define SETTING_TABLE_SECTION_INDEX_OF_ACCOUNTS 0
+#define SETTING_TABLE_SECTION_INDEX_OF_ABOUT 1
 
 @interface SettingsViewController ()
 
@@ -24,10 +28,23 @@
     
     [[self navigationItem ]setTitle:@"Settings"];
     
-    _table=[[UITableView alloc]initWithFrame:(CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)) style:(UITableViewStyleGrouped)];
+    //CGRect appFrame=[UIScreen mainScreen].applicationFrame;
+    
+    CGFloat adViewHeight=[SinriAdView recommendedBannerHeight];
+    
+    CGRect tableFrame=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-adViewHeight);
+    
+    _table=[[UITableView alloc]initWithFrame:tableFrame style:(UITableViewStyleGrouped)];
     [_table setDelegate:self];
     [_table setDataSource:self];
     [self.view addSubview:_table];
+    
+    _adView = [[SinriAdView alloc]initWithFrame:(CGRectMake(0, self.view.frame.size.height-adViewHeight, self.view.frame.size.width, adViewHeight))];
+    [_adView setUseAdMob:YES];
+    [_adView setGAD_APP_ID:@"ca-app-pub-5323203756742073~1478169140"];
+    [_adView setGAD_UNIT_ID:@"ca-app-pub-5323203756742073/4431635545"];
+    [_adView setRootViewController:self];
+    [self.view addSubview:_adView];
 }
 
 -(AliyunAccountModel*)getAliyunAccountModelAtOrder:(NSUInteger)index{
@@ -56,10 +73,14 @@
  }
  */
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
+    return 2;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [[AliyunAccountModel storedAccounts]count]+1;
+    if(section==SETTING_TABLE_SECTION_INDEX_OF_ACCOUNTS){
+        return [[AliyunAccountModel storedAccounts]count]+1;
+    }else{
+        return 1;
+    }
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell * cell=[tableView dequeueReusableCellWithIdentifier:@"SettingsTableCell"];
@@ -67,10 +88,12 @@
         cell=[[UITableViewCell alloc]initWithStyle:(UITableViewCellStyleValue1) reuseIdentifier:@"SettingsTableCell"];
     }
     
-    if([indexPath section]==0){
+    if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_ACCOUNTS){
         if([[AliyunAccountModel storedAccounts]count]==[indexPath row]){
             //add one more
-            [[cell textLabel]setText:@"Add account..."];
+            [[cell textLabel]setText:@"Add Account"];
+            [[cell detailTextLabel]setText:nil];
+            [cell setAccessoryType:(UITableViewCellAccessoryDisclosureIndicator)];
         }else{
             AliyunAccountModel*aam=[self getAliyunAccountModelAtOrder:indexPath.row];
             if([aam isAKMode]){
@@ -79,22 +102,30 @@
                 [[cell detailTextLabel]setText:@"Registered User"];
             }
             [[cell textLabel]setText:aam.nickname];
+            [cell setAccessoryType:(UITableViewCellAccessoryNone)];
         }
+    }else if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_ABOUT){
+        //readme
+        [[cell textLabel]setText:@"About Tianwen"];
+        [[cell detailTextLabel]setText:nil];
+        [cell setAccessoryType:(UITableViewCellAccessoryDisclosureIndicator)];
     }
     
     return cell;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if(section==0){
+    if(section==SETTING_TABLE_SECTION_INDEX_OF_ACCOUNTS){
         return @"Account";
+    }else if(section==SETTING_TABLE_SECTION_INDEX_OF_ABOUT){
+        return @"Information";
     }
     
     return @"";
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if([indexPath section]==0){
+    if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_ACCOUNTS){
         //account
         AliyunAccountModel*aam=nil;
         if([indexPath row]<[[AliyunAccountModel storedAccounts]count]){
@@ -102,11 +133,15 @@
         }
         AddAccountViewController*aavc=[[AddAccountViewController alloc]initWithAliyunAccountModel:aam];
         [self.navigationController pushViewController:aavc animated:YES];
+    }else if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_ABOUT){
+        //about
+        AboutViewController * avc=[[AboutViewController alloc]init];
+        [[self navigationController]pushViewController:avc animated:YES];
     }
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-    if([indexPath section]==0){
+    if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_ACCOUNTS){
         //account
         if([indexPath row]<[[AliyunAccountModel storedAccounts]count]){
             return YES;
@@ -116,7 +151,7 @@
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if([indexPath section]==0){
+    if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_ACCOUNTS){
         //account
         if([indexPath row]<[[AliyunAccountModel storedAccounts]count]){
             return UITableViewCellEditingStyleDelete;
@@ -129,7 +164,7 @@
 {
     switch (editingStyle) {
         case UITableViewCellEditingStyleDelete:
-            if(indexPath.section==0){
+            if(indexPath.section==SETTING_TABLE_SECTION_INDEX_OF_ACCOUNTS){
                 //修改数据源，在刷新 tableView
                 [AliyunAccountModel removeAccountInStore:[[self getAliyunAccountModelAtOrder:indexPath.row]computeAliyunAccountModelKey]];
             }

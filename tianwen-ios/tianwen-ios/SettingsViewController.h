@@ -7,9 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DynamicTableViewController.h"
+#import "SinriAdView.h"
 
-@interface SettingsViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@interface SettingsViewController :
+//DynamicTableViewController
+UIViewController<UITableViewDelegate,UITableViewDataSource>
 
 @property UITableView * table;
+
+@property SinriAdView * adView;
 
 @end

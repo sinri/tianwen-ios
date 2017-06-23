@@ -17,6 +17,8 @@
 @property NSString* _Nonnull instanceId;
 @property NSString* _Nonnull navTitle;
 
+@property NSString * _Nullable RDSType;
+
 -(instancetype _Nonnull)initWithInstanceId:(NSString*_Nonnull)instanceId andRegionId:(NSString*_Nonnull)regionId forAccount:(AliyunAccountModel*_Nonnull)account;
 
 @end

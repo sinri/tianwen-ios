@@ -21,10 +21,13 @@
         _cellReusableId=cellReusableId;
         
         _cellStyle=UITableViewCellStyleDefault;
+        _cellAccessoryType=UITableViewCellAccessoryNone;
         
         _text=nil;
         _detailText=nil;
         _imageName=nil;
+        
+        _onSelect=nil;
     }
     return self;
 }

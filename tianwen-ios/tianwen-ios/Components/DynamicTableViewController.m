@@ -112,15 +112,17 @@
     }
     
     // Configure the cell...
-    if([cellInfo text]){
+    //if([cellInfo text]){
         [[cell textLabel]setText:[cellInfo text]];
-    }
-    if([cellInfo detailText]){
+    //}
+    //if([cellInfo detailText]){
         [[cell detailTextLabel]setText:[cellInfo detailText]];
-    }
-    if([cellInfo imageName]){
+    //}
+    //if([cellInfo imageName]){
         [[cell imageView]setImage:[UIImage imageNamed:[cellInfo imageName]]];
-    }
+    //}
+    
+    [cell setAccessoryType:[cellInfo cellAccessoryType]];
     
     return cell;
 }
@@ -166,6 +168,21 @@
         return [sectionInfo title];
     }
     return nil;
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
+    DynamicTableSectionInfo*sectionInfo=[_sections objectAtIndex:section];
+    if([sectionInfo title]){
+        return [sectionInfo footer];
+    }
+    return nil;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    DynamicTableCellInfo * cellInfo=[[[_sections objectAtIndex:indexPath.section]cells]objectAtIndex:indexPath.row];
+    if(cellInfo && [cellInfo onSelect]){
+        cellInfo.onSelect(cellInfo, nil);
+    }
 }
 
 /*

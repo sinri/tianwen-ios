@@ -13,6 +13,7 @@
 
 @property NSString * _Nonnull sectionKey;
 @property NSString * _Nullable title;
+@property NSString * _Nullable footer;
 @property  NSMutableArray<DynamicTableCellInfo*>* _Nonnull  cells;
 
 -(instancetype _Nonnull)initWithSectionKey:(NSString* _Nonnull)sectionKey;

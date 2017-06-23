@@ -9,6 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "AliyunAccountModel.h"
 
+#ifdef DEBUG
+#ifndef FOR_SCREENSHOT
+#define FOR_SCREENSHOT
+#endif
+#endif
+
 @interface TianwenAPI : NSObject
 
 +(NSDictionary*)CloudAssetsDoctor:(NSString*)plan forAccount:(AliyunAccountModel*)account;
