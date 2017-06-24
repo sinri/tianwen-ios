@@ -29,7 +29,7 @@
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
-    [[self navigationItem]setTitle:@"Tianwen"];
+    [[self navigationItem]setTitle:NSLocalizedString(@"Tianwen",@"天问")];
     
     UIBarButtonItem*settingBarItem=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(onSettingBarItem:)];
     [[self navigationItem]setRightBarButtonItem:settingBarItem];
@@ -80,7 +80,7 @@
     }else if([[[addition objectForKey:@"warning"] objectForKey:@"hardware_type"]isEqualToString:@"RDS"]){
         DynamicRDSDetailViewController*vc=[[DynamicRDSDetailViewController alloc]initWithInstanceId:[[addition objectForKey:@"warning"]objectForKey:@"instance_id"] andRegionId:[[addition objectForKey:@"warning"] objectForKey:@"region_id"] forAccount:[addition objectForKey:@"account"]];
         [[self navigationController]pushViewController:vc animated:YES];
-    }else if([[[addition objectForKey:@"warning"] objectForKey:@"hardware_type"]isEqualToString:@"ECS"]){
+    }else if([[[addition objectForKey:@"warning"] objectForKey:@"hardware_type"]isEqualToString:@"REDIS"]){
         DynamicREDISDetailViewController*vc=[[DynamicREDISDetailViewController alloc]initWithInstanceId:[[addition objectForKey:@"warning"]objectForKey:@"instance_id"] andRegionId:[[addition objectForKey:@"warning"] objectForKey:@"region_id"] forAccount:[addition objectForKey:@"account"]];
         [[self navigationController]pushViewController:vc animated:YES];
     }

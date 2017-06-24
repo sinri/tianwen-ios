@@ -9,6 +9,8 @@
 #import "DynamicTianwenWarningView.h"
 #import "TianwenAPI.h"
 
+#import "TianwenHelper.h"
+
 #import "DynamicECSDetailViewController.h"
 #import "DynamicRDSDetailViewController.h"
 #import "DynamicREDISDetailViewController.h"
@@ -69,13 +71,15 @@
         [sectionInfo setTitle:[account nickname]];
         
             DynamicTableCellInfo * cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"LoadingCell" andCellReusableId:@"LoadingCell"];
-            [cellInfo setText:@"Loading"];
+            [cellInfo setText:NSLocalizedString(@"Loading",@"加载中")];
             [cellInfo setImageName:@"LOADING"];
             
             [sectionInfo appendCell:cellInfo];
         
         [_sections addObject:sectionInfo];
     }
+    
+    [_warningTable reloadData];
     
     for(NSUInteger i=0;i<[accounts count];i++){
         [self performSelectorInBackground:@selector(loadWarningInfoInBackgroundForAccount:) withObject:[accounts objectAtIndex:i]];
@@ -103,7 +107,7 @@
     
     if(!dict){
         DynamicTableCellInfo * cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"ErrorCell" andCellReusableId:@"ErrorCell"];
-        [cellInfo setText:@"Cannot read API Response"];
+        [cellInfo setText:NSLocalizedString(@"Cannot read API Response",@"未能获取情报")];
         [cellInfo setImageName:@"OTHER ISSUE"];
         
         [sectionInfo appendCell:cellInfo];
@@ -126,7 +130,11 @@
                 NSString * title=[NSString stringWithFormat:
                                   @"%@ [%@]",
                                   [warning objectForKey:@"hardware_type"],
-                                  [warning objectForKey:@"instance"]
+//#ifdef FOR_SCREENSHOT
+                                  [TianwenHelper hiddenForScreenshot:[warning objectForKey:@"instance"]]
+//#else
+//                                 [warning objectForKey:@"instance"]
+//#endif
                                   ];
                 NSString * detail=[NSString stringWithFormat:
                                    @"%@: %@ %@",
@@ -168,13 +176,13 @@
             }
         }else{
             DynamicTableCellInfo * cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"NormalCell" andCellReusableId:@"NormalCell"];
-            [cellInfo setText:[NSString stringWithFormat:@"%@",@"All Green."]];
+            [cellInfo setText:[NSString stringWithFormat:@"%@",NSLocalizedString(@"All Green.",@"一切正常")]];
             [cellInfo setImageName:@"NO ISSUE"];
             
             [sectionInfo appendCell:cellInfo];
         }
         
-        [sectionInfo setFooter:[NSString stringWithFormat:@"Done on %@",[[dict objectForKey:@"data"]objectForKey:@"done_time"]]];
+        [sectionInfo setFooter:[NSString stringWithFormat:NSLocalizedString(@"Done on %@",@"于 %@"),[[dict objectForKey:@"data"]objectForKey:@"done_time"]]];
     }
     
     //now we have sectionInfo

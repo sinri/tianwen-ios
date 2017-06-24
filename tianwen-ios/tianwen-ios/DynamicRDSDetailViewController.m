@@ -99,13 +99,13 @@
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"DBInstanceId" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
     [cellInfo setText:@"DBInstanceId"];
-    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[rds objectForKey:@"DBInstanceId"]]];
+    [cellInfo setDetailText:[TianwenHelper hiddenForScreenshot:[NSString stringWithFormat:@"%@",[rds objectForKey:@"DBInstanceId"]]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"DBInstanceDescription" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
     [cellInfo setText:@"DBInstanceDescription"];
-    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[rds objectForKey:@"DBInstanceDescription"]]];
+    [cellInfo setDetailText:[TianwenHelper hiddenForScreenshot:[NSString stringWithFormat:@"%@",[rds objectForKey:@"DBInstanceDescription"]]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"DBInstanceType" andCellReusableId:rds_cell_id];
@@ -117,7 +117,7 @@
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"ConnectionString" andCellReusableId:@"RDSURLCELL"];
     [cellInfo setCellStyle:(UITableViewCellStyleSubtitle)];
     [cellInfo setText:@"ConnectionString"];
-    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[rds objectForKey:@"ConnectionString"]]];
+    [cellInfo setDetailText:[TianwenHelper hiddenForScreenshot:[NSString stringWithFormat:@"%@",[rds objectForKey:@"ConnectionString"]]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Port" andCellReusableId:rds_cell_id];

@@ -8,6 +8,7 @@
 
 #import "DynamicREDISDetailViewController.h"
 #import "TianwenAPI.h"
+#import "TianwenHelper.h"
 
 @interface DynamicREDISDetailViewController ()
 

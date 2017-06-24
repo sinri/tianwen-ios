@@ -8,6 +8,7 @@
 
 #import "AccountProductViewController.h"
 #import "TianwenAPI.h"
+#import "TianwenHelper.h"
 
 #import "DynamicECSDetailViewController.h"
 #import "DynamicRDSDetailViewController.h"
@@ -28,7 +29,7 @@
         _productsByAccount=[@[] mutableCopy];
         for (NSUInteger i=0; i<[_accounts count]; i++) {
             [_productsByAccount addObject:@{
-                                             @"error":@"Loading",
+                                             @"error":NSLocalizedString(@"Loading",@"加载中")
                                              }
              ];
         }
@@ -46,7 +47,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.navigationItem.title=@"Products";
+    self.navigationItem.title=NSLocalizedString(@"Products",@"产品列表");
     
     [self.tableView reloadData];
     
@@ -75,13 +76,13 @@
     if(!result){
         [_productsByAccount replaceObjectAtIndex:[index unsignedIntegerValue]
                                       withObject:@{
-                                                   @"error":@"Load Failed"
+                                                   @"error":NSLocalizedString(@"Load Failed",@"加载失败")
                                                    }
          ];
     }else{
         if(![[result objectForKey:@"code"]isEqualToString:@"OK"]){
             NSString * error=[result objectForKey:@"data"];
-            if(!error)error=@"Unknown Error";
+            if(!error)error=NSLocalizedString(@"Unknown Error",@"未知错误");
         }else{
             NSDictionary*group=[result objectForKey:@"data"];
             NSArray * groupECS=[group objectForKey:@"ECS"];
@@ -170,7 +171,7 @@
         [cell setAccessoryType:(UITableViewCellAccessoryNone)];
     }else{
         NSDictionary*item=[[dict objectForKey:@"products"] objectAtIndex:indexPath.row];
-        [[cell textLabel]setText:[item objectForKey:@"_PRODUCT_NAME"]];
+        [[cell textLabel]setText:[TianwenHelper hiddenForScreenshot:[item objectForKey:@"_PRODUCT_NAME"]]];
         [[cell detailTextLabel]setText:[item objectForKey:@"_PRODUCT_TYPE"]];
         
         UIImage * image=[UIImage imageNamed:[item objectForKey:@"_PRODUCT_TYPE"]];

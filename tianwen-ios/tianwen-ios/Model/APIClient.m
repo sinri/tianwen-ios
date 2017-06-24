@@ -60,7 +60,13 @@
     
     NSHTTPURLResponse * response=nil;
     NSError*error=nil;
+#ifdef DEBUG
+    NSLog(@"call URL go: %@",bodyData);
+#endif
     NSData*jsonData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+#ifdef DEBUG
+    NSLog(@"call URL get: %@",[[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding]);
+#endif
     if(response.statusCode!=200 || error){
         NSLog(@"HTTP CODE: %ld",(long)response.statusCode);
         NSLog(@"HTTP ERROR: %@",error);

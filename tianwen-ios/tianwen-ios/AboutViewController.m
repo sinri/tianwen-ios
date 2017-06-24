@@ -20,7 +20,7 @@
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
-    self.navigationItem.title=@"About";
+    self.navigationItem.title=NSLocalizedString(@"About Tianwen",@"应用信息");
     
     _webView=[[UIWebView alloc]initWithFrame:(CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height))];
     [[_webView scrollView]setBounces:NO];

@@ -56,11 +56,11 @@ static const NSString * SinriAd_IN_SDK_AD_ID=@"SDK-Original";
 }
 
 -(void)resetUI{
-    if(iadBanner){
-        [iadBanner setHidden:YES];
-        [iadBanner removeFromSuperview];
-        iadBanner=nil;
-    }
+//    if(iadBanner){
+//        [iadBanner setHidden:YES];
+//        [iadBanner removeFromSuperview];
+//        iadBanner=nil;
+//    }
     if(gadBanner){
         [gadBanner setHidden:YES];
         [gadBanner removeFromSuperview];
@@ -187,7 +187,6 @@ static const NSString * SinriAd_IN_SDK_AD_ID=@"SDK-Original";
 }
 
 -(void)loadSinriAd{
-    
     NSString *currentVersion = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
     NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSString * appBundleIdentifier = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleIdentifier"];
@@ -291,13 +290,20 @@ static const NSString * SinriAd_IN_SDK_AD_ID=@"SDK-Original";
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:[[SinriAdView URLQueryWithParams:request_parameters]dataUsingEncoding:NSUTF8StringEncoding]];
     
-    [NSURLConnection sendAsynchronousRequest:request queue:([NSOperationQueue mainQueue]) completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        //        Log(@"= = AD TAP REPORT = =\nresponse: %@\ndata: %@\nerror: %@",response,[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding],connectionError);
+//    [NSURLConnection sendAsynchronousRequest:request
+//                                       queue:([NSOperationQueue mainQueue])
+//                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+//        //        Log(@"= = AD TAP REPORT = =\nresponse: %@\ndata: %@\nerror: %@",response,[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding],connectionError);
+//    }];
+    
+    [[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]]dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@"SinriAD Request Done");
     }];
-    
-    
     //open
-    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:_sinriBannerTargetUrl]];
+    //[[UIApplication sharedApplication]openURL:[NSURL URLWithString:_sinriBannerTargetUrl]];
+    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:_sinriBannerTargetUrl] options:@{} completionHandler:^(BOOL success) {
+        NSLog(@"Clicked SinriAD");
+    }];
 }
 
 -(void)onSinriBannerTimeUp:(NSTimer*)timer{

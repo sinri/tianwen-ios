@@ -10,6 +10,9 @@
 
 @interface AddAccountViewController ()
 
+@property UILabel * labelForUsername;
+@property UILabel * labelForPassword;
+
 @end
 
 @implementation AddAccountViewController
@@ -28,7 +31,7 @@
     
     [[self view]setBackgroundColor:[UIColor whiteColor]];
     
-    [self.navigationItem setTitle:@"Account Info"];
+    [self.navigationItem setTitle:NSLocalizedString(@"Account Info", @"账户信息")];
     
     UIBarButtonItem * saveButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:(UIBarButtonSystemItemSave) target:self action:@selector(addAccount:)];
     [self.navigationItem setRightBarButtonItem:saveButton];
@@ -39,21 +42,8 @@
     CGFloat h=10;
     CGFloat m=20;
     
-    _accountType=[[UISegmentedControl alloc]initWithItems:@[@"AccessKey",@"Registered"]];
-    [_accountType setFrame:(CGRectMake(m, h, self.view.frame.size.width-2*m, 30))];
-    if(_aliyunAccountModel && [_aliyunAccountModel isUPMode]){
-        [_accountType setSelectedSegmentIndex:1];
-    }else{
-        [_accountType setSelectedSegmentIndex:0];
-    }
-    //[_accountType setTitle:@"AccessKey" forSegmentAtIndex:0];
-    //[_accountType setTitle:@"Registered" forSegmentAtIndex:1];
-    [container addSubview:_accountType];
-    
-    h+=30+10;
-    
     UILabel * labelForNickname=[[UILabel alloc]initWithFrame:(CGRectMake(m, h, 300, 30))];
-    [labelForNickname setText:@"AccessKey ID / Username"];
+    [labelForNickname setText:NSLocalizedString(@"Nickname",@"账户显示名")];
     [container addSubview:labelForNickname];
     
     h+=30+10;
@@ -69,9 +59,23 @@
     
     h+=30+10;
     
-    UILabel * labelForUsername=[[UILabel alloc]initWithFrame:(CGRectMake(m, h, 300, 30))];
-    [labelForUsername setText:@"AccessKey ID / Username"];
-    [container addSubview:labelForUsername];
+    _accountType=[[UISegmentedControl alloc]initWithItems:@[NSLocalizedString(@"AccessKey",@"阿里云子账号（AccessKey）"),NSLocalizedString(@"Registered",@"注册账户")]];
+    [_accountType setFrame:(CGRectMake(m, h, self.view.frame.size.width-2*m, 30))];
+    if(_aliyunAccountModel && [_aliyunAccountModel isUPMode]){
+        [_accountType setSelectedSegmentIndex:1];
+    }else{
+        [_accountType setSelectedSegmentIndex:0];
+    }
+    //[_accountType setTitle:@"AccessKey" forSegmentAtIndex:0];
+    //[_accountType setTitle:@"Registered" forSegmentAtIndex:1];
+    [_accountType addTarget:self action:@selector(onAccountTypeChange:) forControlEvents:(UIControlEventValueChanged)];
+    [container addSubview:_accountType];
+    
+    h+=30+10;
+    
+    _labelForUsername=[[UILabel alloc]initWithFrame:(CGRectMake(m, h, 300, 30))];
+    [_labelForUsername setText:@"AccessKey ID / Username"];
+    [container addSubview:_labelForUsername];
     
     h+=30+10;
     
@@ -86,9 +90,9 @@
     
     h+=30+10;
     
-    UILabel * labelForPassword=[[UILabel alloc]initWithFrame:(CGRectMake(m, h, 300, 30))];
-    [labelForPassword setText:@"AccessKey Secret / Password"];
-    [container addSubview:labelForPassword];
+    _labelForPassword=[[UILabel alloc]initWithFrame:(CGRectMake(m, h, 300, 30))];
+    [_labelForPassword setText:@"AccessKey Secret / Password"];
+    [container addSubview:_labelForPassword];
     
     h+=30+10;
     
@@ -104,7 +108,7 @@
     h+=30+20;
     
     UILabel * regionsLable=[[UILabel alloc]initWithFrame:(CGRectMake(m, h, 300, 30))];
-    [regionsLable setText:@"Regions"];
+    [regionsLable setText:NSLocalizedString(@"Regions",@"地区")];
     [container addSubview:regionsLable];
     
     h+=30+10;
@@ -134,6 +138,8 @@
     
     //finally
     [container setContentSize:(CGSizeMake(container.frame.size.width, h))];
+    
+    [self onAccountTypeChange:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -151,10 +157,23 @@
 }
 */
 
+-(void)onAccountTypeChange:(id)snender{
+    if([_accountType selectedSegmentIndex]==0){
+        [_labelForUsername setText:@"AccessKey ID"];
+        [_labelForPassword setText:@"AccessKey Secret"];
+    }else if([_accountType selectedSegmentIndex]==1){
+        [_labelForUsername setText:NSLocalizedString(@"Username",@"用户名")];
+        [_labelForPassword setText:NSLocalizedString(@"Password",@"密码")];
+    }
+}
+
 -(void)addAccount:(id)sender{
-    if([_username.text isEqualToString:@""] || [_password.text isEqualToString:@""]){
-        UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"Failed" message:@"Empty Input Found" preferredStyle:(UIAlertControllerStyleAlert)];
-        UIAlertAction * okAction=[UIAlertAction actionWithTitle:@"OK" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+    if([_username.text isEqualToString:@""] || [_password.text isEqualToString:@""] || [_nickname.text isEqualToString:@""]){
+        UIAlertController * alert=[UIAlertController alertControllerWithTitle:NSLocalizedString(@"Failed",@"失败")
+                                                                      message:NSLocalizedString(@"Empty Input Found",@"用户信息条项为空")
+                                                               preferredStyle:(UIAlertControllerStyleAlert)
+                                   ];
+        UIAlertAction * okAction=[UIAlertAction actionWithTitle:NSLocalizedString(@"OK",@"好") style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
             //
         }];
         [alert addAction:okAction];

@@ -26,7 +26,7 @@
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
-    [[self navigationItem ]setTitle:@"Settings"];
+    [[self navigationItem ]setTitle:NSLocalizedString(@"Settings",@"设置")];
     
     //CGRect appFrame=[UIScreen mainScreen].applicationFrame;
     
@@ -91,22 +91,22 @@
     if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_ACCOUNTS){
         if([[AliyunAccountModel storedAccounts]count]==[indexPath row]){
             //add one more
-            [[cell textLabel]setText:@"Add Account"];
+            [[cell textLabel]setText:NSLocalizedString(@"Add Account",@"添加账户")];
             [[cell detailTextLabel]setText:nil];
             [cell setAccessoryType:(UITableViewCellAccessoryDisclosureIndicator)];
         }else{
             AliyunAccountModel*aam=[self getAliyunAccountModelAtOrder:indexPath.row];
             if([aam isAKMode]){
-                [[cell detailTextLabel]setText:@"AccessKey Pair"];
+                [[cell detailTextLabel]setText:NSLocalizedString(@"AccessKey Pair",@"阿里云子账号")];
             }else if ([aam isUPMode]){
-                [[cell detailTextLabel]setText:@"Registered User"];
+                [[cell detailTextLabel]setText:NSLocalizedString(@"Registered User",@"注册账户")];
             }
             [[cell textLabel]setText:aam.nickname];
             [cell setAccessoryType:(UITableViewCellAccessoryNone)];
         }
     }else if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_ABOUT){
         //readme
-        [[cell textLabel]setText:@"About Tianwen"];
+        [[cell textLabel]setText:NSLocalizedString(@"About Tianwen",@"应用信息")];
         [[cell detailTextLabel]setText:nil];
         [cell setAccessoryType:(UITableViewCellAccessoryDisclosureIndicator)];
     }
@@ -116,9 +116,9 @@
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     if(section==SETTING_TABLE_SECTION_INDEX_OF_ACCOUNTS){
-        return @"Account";
+        return NSLocalizedString(@"Account",@"账户");
     }else if(section==SETTING_TABLE_SECTION_INDEX_OF_ABOUT){
-        return @"Information";
+        return NSLocalizedString(@"Information",@"信息");
     }
     
     return @"";

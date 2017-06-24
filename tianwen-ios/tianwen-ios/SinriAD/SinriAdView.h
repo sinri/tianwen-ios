@@ -14,7 +14,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import <iAd/iAd.h>
+//#import <iAd/iAd.h>
 
 @interface SinriAdView : UIView
 <
@@ -22,7 +22,7 @@
 GADBannerViewDelegate
 >
 {
-    ADBannerView * iadBanner;
+    //ADBannerView * iadBanner;
     GADBannerView * gadBanner;
     UIButton * sinriBanner;
 }

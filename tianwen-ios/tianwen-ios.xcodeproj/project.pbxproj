@@ -39,8 +39,12 @@
 		2F422CB31EFC10A000AB0C3E /* DynamicTianwenWarningView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422CB21EFC10A000AB0C3E /* DynamicTianwenWarningView.m */; };
 		2F422CB61EFCB0A200AB0C3E /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422CB51EFCB0A200AB0C3E /* AboutViewController.m */; };
 		2F422CB91EFCB57900AB0C3E /* SinriAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422CB81EFCB57900AB0C3E /* SinriAdView.m */; };
-		2F422CBF1EFCBD1300AB0C3E /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F422CBE1EFCBD1300AB0C3E /* GoogleMobileAds.framework */; };
 		2F422CC21EFCFE0B00AB0C3E /* TianwenHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422CC11EFCFE0B00AB0C3E /* TianwenHelper.m */; };
+		2F422CC51EFD635900AB0C3E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F422CC71EFD635900AB0C3E /* Localizable.strings */; };
+		2F422CCD1EFE2E3B00AB0C3E /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2F422CCB1EFE2E3B00AB0C3E /* README.txt */; };
+		2F422CCE1EFE32FD00AB0C3E /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F422CCA1EFE2E3B00AB0C3E /* GoogleMobileAds.framework */; };
+		2F422CD21EFE412E00AB0C3E /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F422CD01EFE412E00AB0C3E /* Fabric.framework */; };
+		2F422CD31EFE412E00AB0C3E /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F422CD11EFE412E00AB0C3E /* Crashlytics.framework */; };
 		2F9FFDEF1EF678F20042641C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FFDEE1EF678F20042641C /* main.m */; };
 		2F9FFDF21EF678F20042641C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FFDF11EF678F20042641C /* AppDelegate.m */; };
 		2F9FFDFA1EF678F20042641C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F9FFDF91EF678F20042641C /* Assets.xcassets */; };
@@ -120,10 +124,14 @@
 		2F422CB51EFCB0A200AB0C3E /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		2F422CB71EFCB57900AB0C3E /* SinriAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SinriAdView.h; path = SinriAD/SinriAdView.h; sourceTree = "<group>"; };
 		2F422CB81EFCB57900AB0C3E /* SinriAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SinriAdView.m; path = SinriAD/SinriAdView.m; sourceTree = "<group>"; };
-		2F422CBC1EFCB6E900AB0C3E /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = "../../SDK_Store/GoogleMobileAdsSdkiOS-7.20.0/GoogleMobileAds.framework"; sourceTree = "<group>"; };
-		2F422CBE1EFCBD1300AB0C3E /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = "GoogleMobileAdsSdkiOS-7.20.0/GoogleMobileAds.framework"; sourceTree = "<group>"; };
 		2F422CC01EFCFE0B00AB0C3E /* TianwenHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TianwenHelper.h; path = Components/TianwenHelper.h; sourceTree = "<group>"; };
 		2F422CC11EFCFE0B00AB0C3E /* TianwenHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TianwenHelper.m; path = Components/TianwenHelper.m; sourceTree = "<group>"; };
+		2F422CC61EFD635900AB0C3E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2F422CC81EFD638800AB0C3E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		2F422CCA1EFE2E3B00AB0C3E /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
+		2F422CCB1EFE2E3B00AB0C3E /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		2F422CD01EFE412E00AB0C3E /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		2F422CD11EFE412E00AB0C3E /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		2F9FFDEA1EF678F20042641C /* tianwen-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tianwen-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F9FFDEE1EF678F20042641C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2F9FFDF01EF678F20042641C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -154,7 +162,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F422CBF1EFCBD1300AB0C3E /* GoogleMobileAds.framework in Frameworks */,
+				2F422CCE1EFE32FD00AB0C3E /* GoogleMobileAds.framework in Frameworks */,
+				2F422CD31EFE412E00AB0C3E /* Crashlytics.framework in Frameworks */,
+				2F422CD21EFE412E00AB0C3E /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,7 +297,7 @@
 		2F422CBA1EFCB57D00AB0C3E /* SinriAD */ = {
 			isa = PBXGroup;
 			children = (
-				2F422CBE1EFCBD1300AB0C3E /* GoogleMobileAds.framework */,
+				2F422CC91EFE2E3B00AB0C3E /* GoogleMobileAdsSdkiOS-7.21.0 */,
 				2F422CB71EFCB57900AB0C3E /* SinriAdView.h */,
 				2F422CB81EFCB57900AB0C3E /* SinriAdView.m */,
 			);
@@ -297,9 +307,17 @@
 		2F422CBB1EFCB6E900AB0C3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2F422CBC1EFCB6E900AB0C3E /* GoogleMobileAds.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2F422CC91EFE2E3B00AB0C3E /* GoogleMobileAdsSdkiOS-7.21.0 */ = {
+			isa = PBXGroup;
+			children = (
+				2F422CCA1EFE2E3B00AB0C3E /* GoogleMobileAds.framework */,
+				2F422CCB1EFE2E3B00AB0C3E /* README.txt */,
+			);
+			path = "GoogleMobileAdsSdkiOS-7.21.0";
 			sourceTree = "<group>";
 		};
 		2F9FFDE11EF678F10042641C = {
@@ -322,6 +340,8 @@
 		2F9FFDEC1EF678F20042641C /* tianwen-ios */ = {
 			isa = PBXGroup;
 			children = (
+				2F422CD01EFE412E00AB0C3E /* Fabric.framework */,
+				2F422CD11EFE412E00AB0C3E /* Crashlytics.framework */,
 				2F422CBA1EFCB57D00AB0C3E /* SinriAD */,
 				2F422C911EFA142A00AB0C3E /* DetailController */,
 				2F422C4E1EF904D000AB0C3E /* MJRefresh */,
@@ -346,6 +366,7 @@
 			isa = PBXGroup;
 			children = (
 				2F9FFDEE1EF678F20042641C /* main.m */,
+				2F422CC71EFD635900AB0C3E /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -404,6 +425,7 @@
 				2F9FFDE61EF678F10042641C /* Sources */,
 				2F9FFDE71EF678F10042641C /* Frameworks */,
 				2F9FFDE81EF678F10042641C /* Resources */,
+				2F422CCF1EFE409A00AB0C3E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -437,6 +459,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 2F9FFDE11EF678F10042641C;
 			productRefGroup = 2F9FFDEB1EF678F20042641C /* Products */;
@@ -454,12 +477,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F9FFDFD1EF678F20042641C /* LaunchScreen.storyboard in Resources */,
+				2F422CC51EFD635900AB0C3E /* Localizable.strings in Resources */,
 				2F9FFDFA1EF678F20042641C /* Assets.xcassets in Resources */,
 				2F422C8B1EF904D000AB0C3E /* MJRefresh.bundle in Resources */,
+				2F422CCD1EFE2E3B00AB0C3E /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2F422CCF1EFE409A00AB0C3E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 926d44b7a27700205c8c62facbb53aa244a7653c d0ed5022f062c722605743112084d659713711ffd4e5da2662f9e576c589fa86";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2F9FFDE61EF678F10042641C /* Sources */ = {
@@ -514,6 +555,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		2F422CC71EFD635900AB0C3E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F422CC61EFD635900AB0C3E /* Base */,
+				2F422CC81EFD638800AB0C3E /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			path = text;
+			sourceTree = "<group>";
+		};
 		2F9FFDFB1EF678F20042641C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -529,6 +580,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -566,7 +618,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -578,6 +630,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -609,7 +662,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -624,7 +677,8 @@
 				DEVELOPMENT_TEAM = LW2C2PTSH8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/tianwen-ios/GoogleMobileAdsSdkiOS-7.20.0",
+					"$(PROJECT_DIR)/tianwen-ios/GoogleMobileAdsSdkiOS-7.21.0",
+					"$(PROJECT_DIR)/tianwen-ios",
 				);
 				INFOPLIST_FILE = "tianwen-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -640,7 +694,8 @@
 				DEVELOPMENT_TEAM = LW2C2PTSH8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/tianwen-ios/GoogleMobileAdsSdkiOS-7.20.0",
+					"$(PROJECT_DIR)/tianwen-ios/GoogleMobileAdsSdkiOS-7.21.0",
+					"$(PROJECT_DIR)/tianwen-ios",
 				);
 				INFOPLIST_FILE = "tianwen-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

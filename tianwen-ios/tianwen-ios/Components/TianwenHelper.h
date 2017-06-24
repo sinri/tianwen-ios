@@ -19,4 +19,6 @@
 +(NSString*)stringOfDateForMySQL:(NSDate*)date;
 +(NSDate*)dateOfStringForMySQL:(NSString*)string;
 
++(NSString*)hiddenForScreenshot:(NSString*)string;
+
 @end

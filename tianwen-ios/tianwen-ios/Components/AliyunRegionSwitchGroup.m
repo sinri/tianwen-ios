@@ -32,7 +32,7 @@
         [_switchList addObject:switcher];
         
         UILabel * label=[[UILabel alloc]initWithFrame:(CGRectMake(70, h, 200, 31))];
-        [label setText:[regionKeys objectAtIndex:i]];
+        [label setText:NSLocalizedString([regionKeys objectAtIndex:i],@"")];
         [self addSubview:label];
         
         h+=60;

@@ -48,4 +48,14 @@
     return [TianwenHelper dateOfString:string inFormat:@"yyyy'-'MM'-'dd HH':'mm':'ss"];
 }
 
+
++(NSString*)hiddenForScreenshot:(NSString*)string{
+    if(/* DISABLES CODE */ (NO)){
+        NSLog(@"FOR_SCREENSHOT: %@",string);
+        NSString *head=(string && [string length]>2)?[string substringToIndex:2]:@"";
+        return [head stringByAppendingString:@"***(Hidden For Screenshot)"];
+    }
+    return string;
+}
+
 @end

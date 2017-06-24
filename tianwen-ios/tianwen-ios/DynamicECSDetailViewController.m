@@ -96,25 +96,25 @@
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"InstanceId" andCellReusableId:ecs_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
     [cellInfo setText:@"InstanceId"];
-    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[ecs objectForKey:@"InstanceId"]]];
+    [cellInfo setDetailText:[TianwenHelper hiddenForScreenshot:[NSString stringWithFormat:@"%@",[ecs objectForKey:@"InstanceId"]]]];
     [ecsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"InstanceName" andCellReusableId:ecs_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
     [cellInfo setText:@"InstanceName"];
-    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[ecs objectForKey:@"InstanceName"]]];
+    [cellInfo setDetailText:[TianwenHelper hiddenForScreenshot:[NSString stringWithFormat:@"%@",[ecs objectForKey:@"InstanceName"]]]];
     [ecsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"InnerIpAddress" andCellReusableId:ecs_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
     [cellInfo setText:@"InnerIpAddress"];
-    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[[ecs objectForKey:@"InnerIpAddress"] componentsJoinedByString:@","]]];
+    [cellInfo setDetailText:[TianwenHelper hiddenForScreenshot:[NSString stringWithFormat:@"%@",[[ecs objectForKey:@"InnerIpAddress"] componentsJoinedByString:@","]]]];
     [ecsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"PublicIpAddress" andCellReusableId:ecs_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
     [cellInfo setText:@"PublicIpAddress"];
-    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[[ecs objectForKey:@"PublicIpAddress"] componentsJoinedByString:@","]]];
+    [cellInfo setDetailText:[TianwenHelper hiddenForScreenshot:[NSString stringWithFormat:@"%@",[[ecs objectForKey:@"PublicIpAddress"] componentsJoinedByString:@","]]]];
     [ecsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"CPU" andCellReusableId:ecs_cell_id];
