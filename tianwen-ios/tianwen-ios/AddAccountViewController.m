@@ -7,6 +7,8 @@
 //
 
 #import "AddAccountViewController.h"
+//#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 @interface AddAccountViewController ()
 
@@ -198,6 +200,9 @@
     [_aliyunAccountModel setNickname:_nickname.text];
     [_aliyunAccountModel setRegions:[_regionSG regionsOpened]];
     [AliyunAccountModel addAccountToStore:_aliyunAccountModel];
+    
+    [Answers logCustomEventWithName:@"Add Account" customAttributes:@{@"type":_aliyunAccountModel.tokenType}];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 

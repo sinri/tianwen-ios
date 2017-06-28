@@ -37,4 +37,6 @@
 
 -(void)loadDataForAccounts:(NSArray<AliyunAccountModel*>*)accounts;
 
+-(void)reloadData;
+
 @end

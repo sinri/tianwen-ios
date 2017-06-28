@@ -102,25 +102,37 @@
     return [[[_sections objectAtIndex:section]cells]count];
 }
 
+- (__kindof DynamicTableCellInfoCompatibleCell *)createReusableCellWithStyle:(UITableViewCellStyle)cellStyle    reuseIdentifier:(NSString*)cellReusableId{
+    return [[DynamicTableCellInfoCompatibleCell alloc]initWithStyle: cellStyle reuseIdentifier: cellReusableId];
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DynamicTableCellInfo*cellInfo=[[[_sections objectAtIndex:indexPath.section]cells]objectAtIndex:indexPath.row];
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[cellInfo cellReusableId]];
+    DynamicTableCellInfoCompatibleCell *cell = [tableView dequeueReusableCellWithIdentifier:[cellInfo cellReusableId]];
     if(!cell){
-        cell = [[UITableViewCell alloc]initWithStyle:[cellInfo cellStyle] reuseIdentifier:[cellInfo cellReusableId]];
+        //cell = [[UITableViewCell alloc]initWithStyle:[cellInfo cellStyle] reuseIdentifier:[cellInfo cellReusableId]];
+        cell = [self createReusableCellWithStyle:[cellInfo cellStyle] reuseIdentifier:[cellInfo cellReusableId]];
     }
     
+    [cell cleanCell];
+    
     // Configure the cell...
-    //if([cellInfo text]){
+    if([cellInfo textWithAttributes]){
+        [[cell textLabel]setAttributedText:[cellInfo textWithAttributes]];
+    }else{
         [[cell textLabel]setText:[cellInfo text]];
-    //}
-    //if([cellInfo detailText]){
+    }
+    if([cellInfo detailTextWithAttributes]){
+        [[cell detailTextLabel]setAttributedText:[cellInfo detailTextWithAttributes]];
+    }else{
         [[cell detailTextLabel]setText:[cellInfo detailText]];
-    //}
-    //if([cellInfo imageName]){
-        [[cell imageView]setImage:[UIImage imageNamed:[cellInfo imageName]]];
-    //}
+    }
+    [[cell imageView]setImage:[UIImage imageNamed:[cellInfo imageName]]];
+    
+    if(cellInfo.additionCellSettingsBlock){
+        cellInfo.additionCellSettingsBlock(cell);
+    }
     
     [cell setAccessoryType:[cellInfo cellAccessoryType]];
     
@@ -194,5 +206,28 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
+//
+//-(void)viewDidLayoutSubviews
+//{
+//    [super viewDidLayoutSubviews];
+//    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+//        [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+//    }
+//    
+//    if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+//        [self.tableView setLayoutMargins:UIEdgeInsetsZero];
+//    }
+//}
 
 @end

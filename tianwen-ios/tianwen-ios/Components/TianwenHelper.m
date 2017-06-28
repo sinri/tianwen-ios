@@ -8,6 +8,7 @@
 
 #import "TianwenHelper.h"
 
+
 @implementation TianwenHelper
 
 +(NSDate*)dateFromISO8601String:(NSString*)dateWithTZ{
@@ -56,6 +57,29 @@
         return [head stringByAppendingString:@"***(Hidden For Screenshot)"];
     }
     return string;
+}
+
++(UIColor*)colorForProgressRate:(CGFloat)progress{
+    CGFloat r=0;
+    CGFloat g=0;
+    CGFloat b=0;
+    if(progress<=0.40){
+        r=progress/0.40;
+        g=0.8;
+        b=0.2;
+    }
+    else if(progress>0.40 && progress<0.80){
+        r=1;
+        g=0.8-(progress-0.4)/0.4*0.5;
+        b=0.2-(progress-0.4)/0.4*0.2;
+    }
+    else {
+        r=1;
+        g=0.3-(progress-0.8)/0.2*0.3;
+        b=0;
+    }
+    
+    return [UIColor colorWithRed:r green:g blue:b alpha:1];
 }
 
 @end

@@ -90,6 +90,7 @@
     [accounts setObject:[model toJson] forKey:[model computeAliyunAccountModelKey]];
     json=[[NSString alloc]initWithData:[NSJSONSerialization dataWithJSONObject:accounts options:(NSJSONWritingPrettyPrinted) error:nil] encoding:NSUTF8StringEncoding];
     [[NSUserDefaults standardUserDefaults]setObject:json forKey:@"tianwen_accounts"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
 #ifdef DEBUG
     //NSLog(@"addAccountToStore: %@",json);
 #endif
@@ -119,6 +120,7 @@
     [accounts removeObjectForKey:key];
     json=[[NSString alloc]initWithData:[NSJSONSerialization dataWithJSONObject:accounts options:(NSJSONWritingPrettyPrinted) error:nil] encoding:NSUTF8StringEncoding];
     [[NSUserDefaults standardUserDefaults]setObject:json forKey:@"tianwen_accounts"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
 }
 
 //const
@@ -145,6 +147,17 @@
     return [[[self fullRegionDict]allKeys]sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         return obj1>obj2;
     }];
+}
+
++(NSString*)getDisplayNameForRegionId:(NSString*)region_id{
+    for(NSString * region_key in [AliyunAccountModel fullRegionDict]){
+        if([[AliyunAccountModel fullRegionDict]objectForKey:region_key]
+           && [[[AliyunAccountModel fullRegionDict]objectForKey:region_key] isEqualToString:region_id]
+           ){
+            return NSLocalizedString(region_key,@"");
+        }
+    }
+    return region_id;
 }
 
 @end

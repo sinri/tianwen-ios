@@ -38,6 +38,9 @@
 "All Green."="一切正常";
 "Done on %@"="于 %@";
 
+"API Call Failed"="API调用失败";
+"API Error: %@"="API调用出错：%@";
+
 "CN_NORTH_1"="华北1 （青岛）";
 "CN_NORTH_2"="华北2 （北京）";
 "CN_NORTH_3"="华北3 （张家口）";
@@ -53,3 +56,169 @@
 "EU_CENTRAL_1"="欧洲中部1 (法兰克福)";
 "ME_EAST_1"="中东东部1 (迪拜)";
 
+"Warning View Style"="警报视图样式";
+"List Mode"="以列表形式展示";
+"Tree Mode"="以分组形式展示";
+
+"CPU High"="高CPU负荷";
+"Memory High"="高内存占用";
+"Disk Full"="高磁盘用量";
+"Data Delay"="同步延迟";
+"Connection High"="高连接负荷";
+"IOPS High"="高读写频率";
+"Backend Abnormal"="后端异常";
+"OTHER ISSUE"="其他故障";
+
+//InstanceAttributesType
+"InstanceId"="实例ID";
+"InstanceName"="实例显示名称";
+"Description"="描述";
+//ImageId	String	镜像ID
+"RegionId"="所属地域";
+"ZoneId"="所属可用区";
+//CPU	Integer	CPU 核数
+"Memory"="内存";
+//InstanceType	String	实例资源规格
+//InstanceTypeFamily	String	实例规格族
+//HostName	String	实例机器名称
+//SerialNumber	String	实例机器的序列号
+"Status"="实例状态";
+//SecurityGroupIds	SecurityGroupIdSetType	实例所属安全组的集合 SecurityGroupIdSetType。
+"PublicIpAddress"="公网 IP 地址";
+"InternetMaxBandwidthIn"="公网入带宽最大值";
+"InternetMaxBandwidthOut"="公网出带宽最大值";
+//InternetChargeType	String	网络计费类型，PayByBandwidth | PayByTraffic两个值中的一个。预付费实例显示PayByBandwidth（按带宽计费）。
+//PayByTraffic：按流量计费
+//PayByBandwidth：按带宽计费
+"CreationTime"="创建时间";//。按照ISO8601标准表示，并需要使用UTC时间。格式为：YYYY-MM-DDThh:mmZ
+//VpcAttributes	VpcAttributesType	VpcAttributesType类型
+//EipAddress	EipAddressAssociateType	EipAddressAssociateType类型
+"InnerIpAddress"="内网 IP 地址";//，参见 IpAddressSetType
+//InstanceNetworkType	String	实例网络类型，可选值Classic | Vpc
+"classic"="经典网络";
+"vpc"="专有网络";
+"OperationLocks"="锁定列表";
+//InstanceChargeType	String	实例的付费方式。
+//PrePaid：预付费，即包年包月
+//PostPaid：后付费，即按量付费
+//DeviceAvailable	String	实例是否还可以挂载磁盘。True | False
+//IoOptimized	String	是否是 IO 优化型实例True | False
+"ExpiredTime"="过期时间";//按照ISO8601标准表示，并需要使用UTC时间。格式为：YYYY-MM-DDThh:mmZ
+"ExpireTime"="过期时间";
+//KeyPairs	KeyPairSetType	由 KeyPairNameSetType 组成的密钥对集合
+"OS"="操作系统";
+
+"Average"="平均";
+"Current Load"="当前负载";
+"CPU Usage Average"="CPU 负载";
+"Memory Usage Average"="内存负载";
+"Disk Usage"="磁盘用量";
+"Disk Usage Average"="磁盘用量";
+"Connection Usage Average"="连接数";
+"IOPS Usage Average"="每秒IO请求量";
+"Data Delay Average"="数据同步延迟";
+
+
+"DBInstanceId"="实例ID";
+"DBInstanceDescription"="实例名称";
+"PayType"="付费类型";
+"Postpaid"="按量付费";
+"Prepaid"="包年包月";
+"DBInstanceType"="实例类型";
+"Primary"="主实例";
+"ReadOnly"="只读实例";
+"Guard"="灾备实例";
+"Temp"="临时实例";
+"InstanceNetworkType"="实例网络类型";
+"Classic"="经典网络";
+"VPC"="专有网络";
+"ConnectionMode"="连接模式";
+//"Performance"="标准";//标准访问模式
+//"Safty"="安全";//高安全访问模式
+"ConnectionString"="连接地址";
+"Port"="应用访问端口";
+"Engine"="数据库类型";
+"EngineVersion"="数据库版本";
+"DBInstanceClass"="实例规格";
+"DBInstanceMemory"="实例内存";//，单位：M
+"DBInstanceStorage"="实例存储空间";//，单位：GB
+"DBInstanceNetType"="网络类型";
+"Internet"="外网";
+"Intranet"="内网";
+"internet"="外网";
+"intranet"="内网";
+"LockMode"="锁定模式";
+"Unlock"="正常";
+"ManualLock"="手动触发锁定";
+"LockByExpiration"="实例过期自动锁定";
+"LockByRestoration"="实例回滚前的自动锁定";
+"LockByDiskQuota"="实例空间满自动锁定";
+"LockReason"="被锁定的原因";
+
+//"DBMaxQuantity"="一个实例下可创建最大数据库数量";
+//"AccountMaxQuantity"="可创建账号的最大数量";
+"MaintainTime"="可维护时间";//，如：00:00Z-02:00Z，表示0点到2点可进行例行维护
+"AvailabilityValue"="当年可用性";//查询当年可用性 实例可用性状态单位：百分比
+"MaxIOPS"="最大IO请求次数";//，即IOPS
+"MaxConnections"="最大实例并发连接数";
+"MasterInstanceId"="主实例的ID";//，如果没有返回此参数（即为null）则表示该实例是主实例
+"IncrementSourceDBInstanceId"="增量数据来源的实例ID";//，如灾备实例的增量数据来源是主实例。只读实例的增量数据来源是主实例，主实例的增量数据涟源是NULL
+"GuardDBInstanceId"="灾备实例ID";//该实例如果挂载着灾备实例。备实例的ID
+"TempDBInstanceId"="临时实例ID";//该实例如果挂载着临时实例。临时实例ID
+"ReadOnlyDBInstanceIds"="只读实例ID列表";//	主实例下挂载的只读实例ID列表
+
+"ReadOnly Instances"="只读实例";
+
+"instanceId"="实例ID";
+
+//ECS status
+"Pending"="准备中";
+"Stopped"="已停止";
+"Starting"="启动中";
+"Running"="运行中";
+"Stopping"="停止中";
+"Deleted"="已释放";
+//RDS status
+"Creating"="创建中";
+//Running	使用中
+"Deleting"="删除中";
+"Rebooting"="重启中";
+"DBInstanceClassChanging"="升降级中";
+"TRANSING"="迁移中";
+"EngineVersionUpgrading"="迁移版本中";
+"TransingToOthers"="迁移数据到其他RDS中";
+"GuardDBInstanceCreating"="生产灾备实例中";
+"Restoring"="备份恢复中";
+"Importing"="数据导入中";
+"ImportingFromOthers"="从其他RDS实例导入数据中";
+"DBInstanceNetTypeChanging"="内外网切换中";
+"GuardSwitching"="容灾切换中";
+"INS_CLONING"="实例克隆中";
+
+//SLB
+"IP Address"="IP 地址";
+"AddressType"="地址类型";
+"Bandwidth"="带宽";
+"LoadBalancerId"="实例ID";
+"LoadBalancerName"="实例名称";
+"LoadBalancerStatus"="状态";
+"MasterZoneId"="主可用区ID";
+"SlaveZoneId"="备可用区ID";
+"NetworkType"="实例网络类型";
+"Listen Configuration"="监听配置";
+"Listener Not Configured"="未设置监听";
+"Backend Servers"="后端服务器";
+"No Backend Servers"="无后端服务器";
+"CreateTime"="创建时间";
+
+"inactive"="不活动";
+"active"="活动";
+"locked"="已锁定";
+
+"Available"="可用";
+"Weight"="权重";
+
+"RDS Info"="RDS 信息";
+"ECS Info"="ECS 信息";
+"REDIS Info"="REDIS 信息";
+"SLB Info"="SLB 信息";

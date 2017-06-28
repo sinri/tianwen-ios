@@ -34,4 +34,5 @@
 
 +(NSDictionary*)fullRegionDict;
 +(NSArray*)fullRegionDictKeys;
++(NSString*)getDisplayNameForRegionId:(NSString*)region_id;
 @end

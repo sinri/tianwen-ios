@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface TianwenHelper : NSObject
 
@@ -20,5 +21,7 @@
 +(NSDate*)dateOfStringForMySQL:(NSString*)string;
 
 +(NSString*)hiddenForScreenshot:(NSString*)string;
+
++(UIColor*)colorForProgressRate:(CGFloat)progress;
 
 @end

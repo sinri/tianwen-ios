@@ -13,6 +13,7 @@
 #import "DynamicECSDetailViewController.h"
 #import "DynamicRDSDetailViewController.h"
 #import "DynamicREDISDetailViewController.h"
+#import "DynamicSLBDetailViewController.h"
 
 @interface AccountProductViewController ()
 
@@ -88,6 +89,7 @@
             NSArray * groupECS=[group objectForKey:@"ECS"];
             NSArray * groupRDS=[group objectForKey:@"RDS"];
             NSArray * groupREDIS=[group objectForKey:@"REDIS"];
+            NSArray * groupSLB=[group objectForKey:@"SLB"];
             
             NSMutableArray * productList=[@[] mutableCopy];
             for (NSUInteger item_id=0;item_id < [groupECS count];item_id++) {
@@ -106,6 +108,12 @@
                 NSMutableDictionary*product=[[groupREDIS objectAtIndex:item_id] mutableCopy];
                 [product setObject:@"REDIS" forKey:@"_PRODUCT_TYPE"];
                 [product setObject:[product objectForKey:@"instanceId"] forKey:@"_PRODUCT_NAME"];
+                [productList addObject:product];
+            }
+            for (NSUInteger item_id=0;item_id < [groupSLB count];item_id++) {
+                NSMutableDictionary*product=[[groupSLB objectAtIndex:item_id] mutableCopy];
+                [product setObject:@"SLB" forKey:@"_PRODUCT_TYPE"];
+                [product setObject:[product objectForKey:@"LoadBalancerName"] forKey:@"_PRODUCT_NAME"];
                 [productList addObject:product];
             }
             
@@ -164,7 +172,7 @@
         [[cell textLabel]setText:[dict objectForKey:@"error"]];
         [[cell detailTextLabel]setText:@""];
         UIImage*image=[UIImage imageNamed:@"OTHER ISSUE"];
-        if([[dict objectForKey:@"error"]isEqualToString:@"Loading"]){
+        if([[dict objectForKey:@"error"]isEqualToString:NSLocalizedString(@"Loading",@"加载中")]){
             image=[UIImage imageNamed:@"LOADING"];
         }
         [[cell imageView]setImage:image];
@@ -188,7 +196,14 @@
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     AliyunAccountModel * account=[_accounts objectAtIndex:section];
-    return [account nickname];
+    
+    NSString * section_title=[account nickname];
+    if([account isAKMode]){
+        section_title = [section_title stringByAppendingFormat:@" (%@)",NSLocalizedString(@"AccessKey Pair",@"阿里云子账号")];
+    }else if([account isUPMode]){
+        section_title = [section_title stringByAppendingFormat:@" (%@)",NSLocalizedString(@"Registered User",@"注册账户")];
+    }
+    return  section_title;
 }
 
 
@@ -245,6 +260,10 @@
         }else if([product_type isEqualToString:@"REDIS"]){
             //REDISDetailViewController*redisVC=[[REDISDetailViewController alloc]initWithInstanceId:[item objectForKey:@"instanceId"] andRegionId:[item objectForKey:@"RegionId"] forAccount:[_accounts objectAtIndex:indexPath.section]];
             DynamicREDISDetailViewController*redisVC=[[DynamicREDISDetailViewController alloc]initWithInstanceId:[item objectForKey:@"instanceId"] andRegionId:[item objectForKey:@"RegionId"] forAccount:[_accounts objectAtIndex:indexPath.section]];
+            [[self navigationController]pushViewController:redisVC animated:YES];
+        }else if([product_type isEqualToString:@"SLB"]){
+            //REDISDetailViewController*redisVC=[[REDISDetailViewController alloc]initWithInstanceId:[item objectForKey:@"instanceId"] andRegionId:[item objectForKey:@"RegionId"] forAccount:[_accounts objectAtIndex:indexPath.section]];
+            DynamicSLBDetailViewController*redisVC=[[DynamicSLBDetailViewController alloc]initWithInstanceId:[item objectForKey:@"LoadBalancerId"] andRegionId:[item objectForKey:@"RegionIdAlias"] forAccount:[_accounts objectAtIndex:indexPath.section]];
             [[self navigationController]pushViewController:redisVC animated:YES];
         }
     }

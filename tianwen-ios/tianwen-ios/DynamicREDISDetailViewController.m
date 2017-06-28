@@ -9,6 +9,7 @@
 #import "DynamicREDISDetailViewController.h"
 #import "TianwenAPI.h"
 #import "TianwenHelper.h"
+#import "DynamicProgressTableViewCell.h"
 
 @interface DynamicREDISDetailViewController ()
 
@@ -63,21 +64,21 @@
         NSString * sectionKey=@"ErrorSection";
         
         DynamicTableSectionInfo * errorSectionInfo=[[DynamicTableSectionInfo alloc]initWithSectionKey:sectionKey];
-        [errorSectionInfo setTitle:sectionKey];
+        [errorSectionInfo setTitle:NSLocalizedString(@"Failed",@"失败")];
         [self appendSection:errorSectionInfo];
         
         DynamicTableCellInfo * cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Error" andCellReusableId:error_cell_id];
-        [cellInfo setText:@"API Call Failed"];
+        [cellInfo setText:NSLocalizedString(@"API Call Failed",@"")];
         [self appendCell:cellInfo toSectionWithKey:sectionKey];
     }else if (![[dict objectForKey:@"code"]isEqualToString:@"OK"]){
         NSString * sectionKey=@"ErrorSection";
         
         DynamicTableSectionInfo * errorSectionInfo=[[DynamicTableSectionInfo alloc]initWithSectionKey:sectionKey];
-        [errorSectionInfo setTitle:sectionKey];
+        [errorSectionInfo setTitle:NSLocalizedString(@"Failed",@"失败")];
         [self appendSection:errorSectionInfo];
         
         DynamicTableCellInfo * cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Error" andCellReusableId:error_cell_id];
-        [cellInfo setText:[NSString stringWithFormat: @"API Error: %@",[dict objectForKey:@"data"]]];
+        [cellInfo setText:[NSString stringWithFormat: NSLocalizedString(@"API Error: %@",@""),[dict objectForKey:@"data"]]];
         [self appendCell:cellInfo toSectionWithKey:sectionKey];
     }else{
         NSDictionary * redis=[[dict objectForKey:@"data"]objectForKey:@"redis"];
@@ -95,14 +96,14 @@
 
 -(void)makeSectionFromREDISDictionary:(NSDictionary*)redis{
     DynamicTableSectionInfo * redisSection=[[DynamicTableSectionInfo alloc]initWithSectionKey:@"REDISSection"];
-    [redisSection setTitle:@"Redis Info"];
+    [redisSection setTitle:NSLocalizedString(@"REDIS Info",@"")];
     
     DynamicTableCellInfo * cellInfo=nil;
     NSString * normal_cell_id=@"DynamicREDISDetailViewController_NormalCell";
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"instanceId" andCellReusableId:normal_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"instanceId"];
+    [cellInfo setText:NSLocalizedString(@"instanceId",@"")];
     [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[redis objectForKey:@"instanceId"]]];
     [cellInfo setOnSelect:^(DynamicTableCellInfo* _Nonnull cellInfo, id _Nullable otherInfo){
         NSLog(@"in block on select: %@",cellInfo);
@@ -115,7 +116,7 @@
 
 -(void)makeSectionFromCMSDictionary:(NSDictionary*)cms{
     DynamicTableSectionInfo * cmsSection=[[DynamicTableSectionInfo alloc]initWithSectionKey:@"CMSSection"];
-    [cmsSection setTitle:@"Current Status"];
+    [cmsSection setTitle:NSLocalizedString(@"Current Load",@"")];
     
     DynamicTableCellInfo * cellInfo=nil;
     NSString * normal_cell_id=@"DynamicREDISDetailViewController_NormalCell";
@@ -126,13 +127,20 @@
         if([memory isKindOfClass:[NSDictionary class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"memory" andCellReusableId:normal_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"Memory Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"Memory Usage Average",@"")];
             [cellInfo setDetailText:[NSString stringWithFormat:@"%@%%",[memory objectForKey:@"Average"]]];
+            [cellInfo setAdditionCellSettingsBlock:^(__kindof DynamicTableCellInfoCompatibleCell* _Nonnull cell){
+                DynamicProgressTableViewCell * dptvc=(DynamicProgressTableViewCell*)cell;
+                CGFloat progress=[[NSString stringWithFormat:@"%@",[memory objectForKey:@"Average"]]floatValue]/100.0;
+                NSLog(@"progress: %f",progress);
+                UIColor * color=[TianwenHelper colorForProgressRate:progress];
+                [dptvc setProgress:progress andColor:color];
+            }];
             [cmsSection appendCell:cellInfo];
         }else if([memory isKindOfClass:[NSString class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"memory" andCellReusableId:error_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"Memory Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"Memory Usage Average",@"")];
             [cellInfo setDetailText:[NSString stringWithFormat:@"%@",memory]];
             [cmsSection appendCell:cellInfo];
         }
@@ -142,13 +150,20 @@
         if([cpu isKindOfClass:[NSDictionary class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"cpu" andCellReusableId:normal_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"CPU Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"CPU Usage Average",@"")];
             [cellInfo setDetailText:[NSString stringWithFormat:@"%@%%",[cpu objectForKey:@"Average"]]];
+            [cellInfo setAdditionCellSettingsBlock:^(__kindof DynamicTableCellInfoCompatibleCell* _Nonnull cell){
+                DynamicProgressTableViewCell * dptvc=(DynamicProgressTableViewCell*)cell;
+                CGFloat progress=[[NSString stringWithFormat:@"%@",[cpu objectForKey:@"Average"]]floatValue]/100.0;
+                NSLog(@"progress: %f",progress);
+                UIColor * color=[TianwenHelper colorForProgressRate:progress];
+                [dptvc setProgress:progress andColor:color];
+            }];
             [cmsSection appendCell:cellInfo];
         }else if([cpu isKindOfClass:[NSString class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"cpu" andCellReusableId:error_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"CPU Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"CPU Usage Average",@"")];
             [cellInfo setDetailText:[NSString stringWithFormat:@"%@",cpu]];
             [cmsSection appendCell:cellInfo];
         }
@@ -158,13 +173,20 @@
         if([connection isKindOfClass:[NSDictionary class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"connection" andCellReusableId:normal_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"Connection Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"Connection Usage Average",@"")];
             [cellInfo setDetailText:[NSString stringWithFormat:@"%@%%",[connection objectForKey:@"Average"]]];
+            [cellInfo setAdditionCellSettingsBlock:^(__kindof DynamicTableCellInfoCompatibleCell* _Nonnull cell){
+                DynamicProgressTableViewCell * dptvc=(DynamicProgressTableViewCell*)cell;
+                CGFloat progress=[[NSString stringWithFormat:@"%@",[connection objectForKey:@"Average"]]floatValue]/100.0;
+                NSLog(@"progress: %f",progress);
+                UIColor * color=[TianwenHelper colorForProgressRate:progress];
+                [dptvc setProgress:progress andColor:color];
+            }];
             [cmsSection appendCell:cellInfo];
         }else if([connection isKindOfClass:[NSString class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Connection" andCellReusableId:error_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"Connection Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"Connection Usage Average",@"")];
             [cellInfo setDetailText:[NSString stringWithFormat:@"%@",connection]];
             [cmsSection appendCell:cellInfo];
         }
@@ -201,5 +223,9 @@
  // Pass the selected object to the new view controller.
  }
  */
+
+-(UITableViewCell *)createReusableCellWithStyle:(UITableViewCellStyle)cellStyle reuseIdentifier:(NSString *)cellReusableId{
+    return [[DynamicProgressTableViewCell alloc]initWithStyle:cellStyle reuseIdentifier:cellReusableId];
+}
 
 @end

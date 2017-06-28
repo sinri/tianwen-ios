@@ -15,6 +15,11 @@
 #import "DynamicRDSDetailViewController.h"
 #import "DynamicREDISDetailViewController.h"
 
+
+#import "TianwenSettings.h"
+
+#import <Crashlytics/Crashlytics.h>
+
 @implementation DynamicTianwenWarningView
 
 -(instancetype)initWithFrame:(CGRect)frame{
@@ -27,8 +32,11 @@
         [_warningTable setDataSource:self];
         [self addSubview:_warningTable];
         
+        [_warningTable setSeparatorStyle:(UITableViewCellSeparatorStyleNone)];
+        
+        
         __weak UITableView * weakTable=_warningTable;
-        __weak DynamicTianwenWarningView * weakSelf=self;
+        //__weak DynamicTianwenWarningView * weakSelf=self;
         
         weakTable.mj_header=[MJRefreshNormalHeader headerWithRefreshingBlock:^{
             //            if(weakTable.mj_header.isRefreshing){
@@ -39,13 +47,9 @@
             NSLog(@"刷新开始");
             
             // loading
+            [self reloadData];
             
-            if([weakSelf delegate] && [[weakSelf delegate] respondsToSelector:@selector(reloadAccountsForDynamicTianwenWarningView:)]){
-                [weakSelf setAccounts:[[weakSelf delegate]reloadAccountsForDynamicTianwenWarningView:weakSelf]];
-                NSLog(@"reload accounts from delegate: %@",[weakSelf accounts]);
-            }
-            
-            [weakSelf loadDataForAccounts:_accounts];
+            [Answers logCustomEventWithName:@"Manually Load Warning" customAttributes:@{}];
             
             // 结束刷新
             [weakTable.mj_header endRefreshing];
@@ -56,6 +60,15 @@
         weakTable.mj_header.automaticallyChangeAlpha = YES;
     }
     return self;
+}
+
+-(void)reloadData{
+    if([self delegate] && [[self delegate] respondsToSelector:@selector(reloadAccountsForDynamicTianwenWarningView:)]){
+        [self setAccounts:[[self delegate]reloadAccountsForDynamicTianwenWarningView:self]];
+        NSLog(@"reload accounts from delegate: %@",[self accounts]);
+    }
+    
+    [self loadDataForAccounts:_accounts];
 }
 
 -(void)loadDataForAccounts:(NSArray<AliyunAccountModel *> *)accounts{
@@ -70,11 +83,11 @@
         DynamicTableSectionInfo * sectionInfo=[[DynamicTableSectionInfo alloc]initWithSectionKey:[account computeAliyunAccountModelKey]];
         [sectionInfo setTitle:[account nickname]];
         
-            DynamicTableCellInfo * cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"LoadingCell" andCellReusableId:@"LoadingCell"];
-            [cellInfo setText:NSLocalizedString(@"Loading",@"加载中")];
-            [cellInfo setImageName:@"LOADING"];
-            
-            [sectionInfo appendCell:cellInfo];
+        DynamicTableCellInfo * cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"LoadingCell" andCellReusableId:@"LoadingCell"];
+        [cellInfo setText:NSLocalizedString(@"Loading",@"加载中")];
+        [cellInfo setImageName:@"LOADING"];
+        
+        [sectionInfo appendCell:cellInfo];
         
         [_sections addObject:sectionInfo];
     }
@@ -103,7 +116,13 @@
 
 -(void)refreshUIByDictionary:(NSDictionary*)dict forAccount:(AliyunAccountModel*)account{
     DynamicTableSectionInfo * sectionInfo=[[DynamicTableSectionInfo alloc]initWithSectionKey:[account computeAliyunAccountModelKey]];
-    [sectionInfo setTitle:[account nickname]];
+    NSString * section_title=[account nickname];
+    if([account isAKMode]){
+        section_title = [section_title stringByAppendingFormat:@" (%@)",NSLocalizedString(@"AccessKey Pair",@"阿里云子账号")];
+    }else if([account isUPMode]){
+        section_title = [section_title stringByAppendingFormat:@" (%@)",NSLocalizedString(@"Registered User",@"注册账户")];
+    }
+    [sectionInfo setTitle:section_title];
     
     if(!dict){
         DynamicTableCellInfo * cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"ErrorCell" andCellReusableId:@"ErrorCell"];
@@ -121,58 +140,166 @@
         NSArray * warnings=[[dict objectForKey:@"data"]objectForKey:@"warning"];
         if([warnings count]){
             DynamicTableCellInfo * cellInfo=nil;
-            for(NSUInteger i=0;i<[warnings count];i++){
-                NSDictionary*warning=[warnings objectAtIndex:i];
-                
-                cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:[NSString stringWithFormat:@"WARNING-%lu",(unsigned long)i] andCellReusableId:@"WarningCell"];
-                [cellInfo setCellStyle:(UITableViewCellStyleSubtitle)];
-                
-                NSString * title=[NSString stringWithFormat:
-                                  @"%@ [%@]",
-                                  [warning objectForKey:@"hardware_type"],
-//#ifdef FOR_SCREENSHOT
-                                  [TianwenHelper hiddenForScreenshot:[warning objectForKey:@"instance"]]
-//#else
-//                                 [warning objectForKey:@"instance"]
-//#endif
-                                  ];
-                NSString * detail=[NSString stringWithFormat:
-                                   @"%@: %@ %@",
-                                   [warning objectForKey:@"issue_type"],
-                                   [warning objectForKey:@"issue_fact"],
-                                   [warning objectForKey:@"issue_fact_unit"]
-                                   ];
-                if(
-                   [warning objectForKey:@"sub_device"]
-                   && ![[warning objectForKey:@"sub_device"] isKindOfClass:[NSNull class]]
-                   && ![[warning objectForKey:@"sub_device"] isEqualToString:@""]
-                   ){
-                    detail = [detail stringByAppendingFormat:@" [%@]",[warning objectForKey:@"sub_device"]];
-                }
-                
-                [cellInfo setText:title];
-                [cellInfo setDetailText:detail];
-                
-                UIImage*image=[UIImage imageNamed:[warning objectForKey:@"issue_type"]];
-                if(!image){
-                    [cellInfo setImageName:@"OTHER ISSUE"];
-                }
-                [cellInfo setImageName:[warning objectForKey:@"issue_type"]];
-                
-                __weak DynamicTianwenWarningView*weakSelf=self;
-                [cellInfo setOnSelect:^(DynamicTableCellInfo* _Nonnull cellInfo, id _Nullable otherInfo){
-                    if(weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(onSelectWarning:cellInfo:addition:)]){
-                        [[weakSelf delegate]onSelectWarning:weakSelf
-                                                   cellInfo:cellInfo
-                                                   addition:@{
-                                                              @"warning":warning,
-                                                              @"account":account,
-                                                              }
-                         ];
+            if([[TianwenSettings warningDisplayStyle]isEqualToString:@"WarningDisplayStyleList"]){
+                //old ways
+                for(NSUInteger i=0;i<[warnings count];i++){
+                    NSDictionary*warning=[warnings objectAtIndex:i];
+                    
+                    cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:[NSString stringWithFormat:@"WARNING-%lu",(unsigned long)i] andCellReusableId:@"WarningCell"];
+                    [cellInfo setCellStyle:(UITableViewCellStyleSubtitle)];
+                    
+                    NSString * title=[NSString stringWithFormat:
+                                      @"%@ [%@]",
+                                      [warning objectForKey:@"hardware_type"],
+                                      [TianwenHelper hiddenForScreenshot:[warning objectForKey:@"instance"]]
+                                      
+                                      ];
+                    NSString * issue_type_name=[warning objectForKey:@"issue_type"];
+                    issue_type_name=NSLocalizedString(issue_type_name, @"");
+                    NSString * detail=[NSString stringWithFormat:
+                                       @"%@: %@ %@",
+                                       issue_type_name,//[warning objectForKey:@"issue_type"],
+                                       [warning objectForKey:@"issue_fact"],
+                                       [warning objectForKey:@"issue_fact_unit"]
+                                       ];
+                    if(
+                       [warning objectForKey:@"sub_device"]
+                       && ![[warning objectForKey:@"sub_device"] isKindOfClass:[NSNull class]]
+                       && ![[NSString stringWithFormat:@"%@",[warning objectForKey:@"sub_device"]] isEqualToString:@""]
+                       ){
+                        detail = [detail stringByAppendingFormat:@" [%@]",[warning objectForKey:@"sub_device"]];
                     }
-                }];
-                
-                [sectionInfo appendCell:cellInfo];
+                    
+                    [cellInfo setText:title];
+                    [cellInfo setDetailText:detail];
+                    
+                    UIImage*image=[UIImage imageNamed:[warning objectForKey:@"issue_type"]];
+                    if(!image){
+                        [cellInfo setImageName:@"OTHER ISSUE"];
+                    }
+                    [cellInfo setImageName:[warning objectForKey:@"issue_type"]];
+                    
+                    __weak DynamicTianwenWarningView*weakSelf=self;
+                    [cellInfo setOnSelect:^(DynamicTableCellInfo* _Nonnull cellInfo, id _Nullable otherInfo){
+                        if(weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(onSelectWarning:cellInfo:addition:)]){
+                            [[weakSelf delegate]onSelectWarning:weakSelf
+                                                       cellInfo:cellInfo
+                                                       addition:@{
+                                                                  @"warning":warning,
+                                                                  @"account":account,
+                                                                  }
+                             ];
+                        }
+                    }];
+                    
+                    [sectionInfo appendCell:cellInfo];
+                }
+            }else if([[TianwenSettings warningDisplayStyle]isEqualToString:@"WarningDisplayStyleTree"]){
+                //new ways
+                NSArray * productsWarning=[self warningsGroupByProduct:warnings];
+                for(NSUInteger i=0;i<[productsWarning count];i++){
+                    NSDictionary * product_info=[[productsWarning objectAtIndex:i]objectForKey:@"product"];
+                    
+                    cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:[NSString stringWithFormat:@"WARNING-PRODUCT-%lu",(unsigned long)i] andCellReusableId:@"WarningProductCell"];
+                    [cellInfo setCellStyle:(UITableViewCellStyleDefault)];
+                    [cellInfo setIndentationLevel:0];
+                    //[cellInfo setDetailText:[NSString stringWithFormat:@"%@",[TianwenHelper hiddenForScreenshot:[product_info objectForKey:@"instance_name"]]]];
+                    //[cellInfo setText:[NSString stringWithFormat:@"%@",[product_info objectForKey:@"hardware_type"]]];
+                    [cellInfo setText:[NSString stringWithFormat:@"%@ | %@",[NSString stringWithFormat:@"%@",[product_info objectForKey:@"hardware_type"]],[NSString stringWithFormat:@"%@",[TianwenHelper hiddenForScreenshot:[product_info objectForKey:@"instance_name"]]]]];
+                    //[cellInfo setImageName:[NSString stringWithFormat:@"%@",[product_info objectForKey:@"hardware_type"]]];
+                    
+                    //初始化NSMutableAttributedString
+                    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]init];
+                    //设置字体颜色
+                    NSString *str1 = [NSString stringWithFormat:@"%@",[product_info objectForKey:@"hardware_type"]];
+                    NSDictionary *dictAttr1 = @{NSForegroundColorAttributeName:[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.7]};
+                    NSAttributedString *attr1 = [[NSAttributedString alloc]initWithString:str1 attributes:dictAttr1];
+                    [attributedString appendAttributedString:attr1];
+                    
+                    [attributedString appendAttributedString:[[NSAttributedString alloc]initWithString:@" "]];
+                    //添加下划线
+                    //设置字体倾斜度 NSObliquenessAttributeName
+                    NSString *str10 = [NSString stringWithFormat:@"%@",[TianwenHelper hiddenForScreenshot:[product_info objectForKey:@"instance_name"]]];
+                    NSDictionary *dictAttr10 = @{
+                                                 //NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle),
+                                                 //NSUnderlineColorAttributeName:[UIColor redColor],
+                                                 NSObliquenessAttributeName:@(0.2),
+                                                 NSForegroundColorAttributeName:[UIColor colorWithRed:0.95 green:0.1 blue:0.1 alpha:0.95]
+                                                 };
+                    NSAttributedString *attr10 = [[NSAttributedString alloc]initWithString:str10 attributes:dictAttr10];
+                    [attributedString appendAttributedString:attr10];
+                    
+                    [cellInfo setTextWithAttributes:attributedString];
+                    
+                    [cellInfo setCellAccessoryView: [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@",[product_info objectForKey:@"hardware_type"]]]]];
+                    
+                    [cellInfo setAdditionCellSettingsBlock:^(__kindof DynamicTableCellInfoCompatibleCell* _Nonnull cell){
+                        [[cell detailTextLabel]setFont:[UIFont systemFontOfSize:20 weight:1]];
+                    }];
+                    
+                    [sectionInfo appendCell:cellInfo];
+                    
+                    NSArray * product_warnings=[[productsWarning objectAtIndex:i] objectForKey:@"warnings"];
+                    if(!product_warnings || [product_warnings count]==0){
+                        cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"NormalCell" andCellReusableId:@"NormalCell"];
+                        [cellInfo setText:[NSString stringWithFormat:@"%@",NSLocalizedString(@"All Green.",@"一切正常")]];
+                        [cellInfo setImageName:@"NO ISSUE"];
+                        
+                        [sectionInfo appendCell:cellInfo];
+                    }else{
+                        for (NSUInteger j=0; j<[product_warnings count]; j++) {
+                            NSDictionary * warning=[product_warnings objectAtIndex:j];
+                            NSLog(@"new method get warning: %@",warning);
+                            
+                            cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:[NSString stringWithFormat:@"WARNING-PRODUCT-DETAIL-%lu-%lu",(unsigned long)i,(unsigned long)j] andCellReusableId:@"WarningProductDetailCell"];
+                            [cellInfo setCellStyle:(UITableViewCellStyleValue1)];//1 or 2?
+                            
+                            NSString * title=[NSString stringWithFormat:@"%@",[warning objectForKey:@"issue_type"]];
+                            title=NSLocalizedString(title,@"");
+                            NSString * detail=[NSString stringWithFormat:
+                                               @"%@ %@",
+                                               [warning objectForKey:@"issue_fact"],
+                                               [warning objectForKey:@"issue_fact_unit"]
+                                               ];
+                            if(
+                               [warning objectForKey:@"sub_device"]
+                               && ![[warning objectForKey:@"sub_device"] isKindOfClass:[NSNull class]]
+                               && ![[NSString stringWithFormat:@"%@",[warning objectForKey:@"sub_device"]] isEqualToString:@""]
+                               ){
+                                detail = [NSString stringWithFormat:@"%@ : [%@]",detail,[warning objectForKey:@"sub_device"]];
+                            }
+                            
+                            [cellInfo setText:title];
+                            [cellInfo setDetailText:detail];
+                            
+                            UIImage*image=[UIImage imageNamed:[warning objectForKey:@"issue_type"]];
+                            if(!image){
+                                [cellInfo setImageName:@"OTHER ISSUE"];
+                            }
+                            [cellInfo setImageName:[warning objectForKey:@"issue_type"]];
+                            
+                            __weak DynamicTianwenWarningView*weakSelf=self;
+                            [cellInfo setOnSelect:^(DynamicTableCellInfo* _Nonnull cellInfo, id _Nullable otherInfo){
+                                if(weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(onSelectWarning:cellInfo:addition:)]){
+                                    [[weakSelf delegate]onSelectWarning:weakSelf
+                                                               cellInfo:cellInfo
+                                                               addition:@{
+                                                                          @"warning":warning,
+                                                                          @"account":account,
+                                                                          }
+                                     ];
+                                }
+                            }];
+                            
+                            //[cellInfo setCellAccessoryView: [[UIImageView alloc] initWithImage:[UIImage imageNamed:[warning objectForKey:@"issue_type"]]]];
+                            
+                            //[cellInfo setIndentationLevel:1];
+                            
+                            [sectionInfo appendCell:cellInfo];
+                        }
+                    }
+                    
+                }
             }
         }else{
             DynamicTableCellInfo * cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"NormalCell" andCellReusableId:@"NormalCell"];
@@ -194,7 +321,7 @@
         }
     }
     if(existed_index>=0){
-//        [_sections removeObjectAtIndex:existed_index];
+        //        [_sections removeObjectAtIndex:existed_index];
         [_sections replaceObjectAtIndex:existed_index withObject:sectionInfo];
     }else{
         [_sections addObject:sectionInfo];
@@ -203,13 +330,38 @@
     [_warningTable reloadData];
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+-(NSArray*)warningsGroupByProduct:(NSArray*)warnings{
+    NSMutableDictionary<NSString*,NSMutableDictionary*> * md=[@{} mutableCopy];
+    for (NSUInteger i=0; i<[warnings count]; i++) {
+        NSDictionary * warning=[warnings objectAtIndex:i];
+        
+        // product key
+        NSString * product_key=[NSString stringWithFormat:@"%@|%@",[warning objectForKey:@"hardware_type"],[warning objectForKey:@"instance_id"]];
+        //NSLog(@"warningsGroupByProduct key=%@ existed=%@",product_key,[md objectForKey:product_key]);
+        if(![md objectForKey:product_key]){
+            //NSLog(@"warningsGroupByProduct key=%@ new",product_key);
+            [md setObject:[@{
+                             @"product":@{
+                                     @"hardware_type":[warning objectForKey:@"hardware_type"],
+                                     @"instance_name":[warning objectForKey:@"instance"],
+                                     @"instance_id":[warning objectForKey:@"instance_id"],
+                                     },
+                             @"warnings":[@[] mutableCopy],
+                             } mutableCopy] forKey:product_key];
+        }
+        [[[md objectForKey:product_key]objectForKey:@"warnings"]addObject:warning];
+        //NSLog(@"warningsGroupByProduct key=%@ added=%@",product_key,[md objectForKey:product_key]);
+    }
+    return [md allValues];
 }
-*/
+
+/*
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect {
+ // Drawing code
+ }
+ */
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return [_sections count];
@@ -228,17 +380,30 @@
     }
     
     // Configure the cell...
-    //if([cellInfo text]){
-    [[cell textLabel]setText:[cellInfo text]];
-    //}
-    //if([cellInfo detailText]){
-    [[cell detailTextLabel]setText:[cellInfo detailText]];
-    //}
-    //if([cellInfo imageName]){
+    if([cellInfo textWithAttributes]){
+        [[cell textLabel]setAttributedText:[cellInfo textWithAttributes]];
+    }else{
+        [[cell textLabel]setText:[cellInfo text]];
+    }
+    if([cellInfo detailTextWithAttributes]){
+        [[cell detailTextLabel]setAttributedText:[cellInfo detailTextWithAttributes]];
+    }else{
+        [[cell detailTextLabel]setText:[cellInfo detailText]];
+    }
     [[cell imageView]setImage:[UIImage imageNamed:[cellInfo imageName]]];
-    //}
     
-    [cell setAccessoryType:[cellInfo cellAccessoryType]];
+    
+    [cell setIndentationLevel:[cellInfo indentationLevel]];
+    
+    if([cellInfo cellAccessoryView]){
+        [cell setAccessoryView:[cellInfo cellAccessoryView]];
+    }else{
+        [cell setAccessoryType:[cellInfo cellAccessoryType]];
+    }
+    
+    if([[cellInfo cellReusableId]isEqualToString:@"WarningProductCell"]){
+        [cell setBackgroundColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:0.7]];
+    }
     
     return cell;
 }

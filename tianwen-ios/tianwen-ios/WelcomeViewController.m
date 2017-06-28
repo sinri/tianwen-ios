@@ -10,15 +10,17 @@
 #import "AliyunAccountModel.h"
 #import "SettingsViewController.h"
 #import "TianwenAPI.h"
+#import "TianwenSettings.h"
 //#import "TianwenWarningInfoView.h"
 #import "AccountProductViewController.h"
 
 #import "DynamicECSDetailViewController.h"
 #import "DynamicRDSDetailViewController.h"
 #import "DynamicREDISDetailViewController.h"
+#import "DynamicSLBDetailViewController.h"
 
 @interface WelcomeViewController ()
-
+@property NSString * currentWarningStyle;
 @end
 
 @implementation WelcomeViewController
@@ -37,10 +39,22 @@
     UIBarButtonItem*productsBarItem=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:(UIBarButtonSystemItemOrganize) target:self action:@selector(onProductsBarItem:)];
     [[self navigationItem]setLeftBarButtonItem:productsBarItem];
     
+    _currentWarningStyle=[TianwenSettings warningDisplayStyle];
+    
     _warningReportView=[[DynamicTianwenWarningView alloc]initWithFrame:(CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height))];
     [_warningReportView setDelegate:self];
     [_warningReportView loadDataForAccounts:[[AliyunAccountModel storedAccounts] allValues]];
     [self.view addSubview:_warningReportView];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if(![_currentWarningStyle isEqualToString:[TianwenSettings warningDisplayStyle]]){
+        [_warningReportView reloadData];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,7 +97,11 @@
     }else if([[[addition objectForKey:@"warning"] objectForKey:@"hardware_type"]isEqualToString:@"REDIS"]){
         DynamicREDISDetailViewController*vc=[[DynamicREDISDetailViewController alloc]initWithInstanceId:[[addition objectForKey:@"warning"]objectForKey:@"instance_id"] andRegionId:[[addition objectForKey:@"warning"] objectForKey:@"region_id"] forAccount:[addition objectForKey:@"account"]];
         [[self navigationController]pushViewController:vc animated:YES];
+    }else if([[[addition objectForKey:@"warning"] objectForKey:@"hardware_type"]isEqualToString:@"SLB"]){
+        DynamicSLBDetailViewController*vc=[[DynamicSLBDetailViewController alloc]initWithInstanceId:[[addition objectForKey:@"warning"]objectForKey:@"instance_id"] andRegionId:[[addition objectForKey:@"warning"] objectForKey:@"region_id"] forAccount:[addition objectForKey:@"account"]];
+        [[self navigationController]pushViewController:vc animated:YES];
     }
+
 }
 
 @end

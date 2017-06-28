@@ -207,6 +207,7 @@ static const NSString * SinriAd_IN_SDK_AD_ID=@"SDK-Original";
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:[[SinriAdView URLQueryWithParams:request_parameters]dataUsingEncoding:NSUTF8StringEncoding]];
     
+    /*
     NSHTTPURLResponse * response=nil;
     NSError * error=nil;
     NSData*data=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
@@ -249,6 +250,55 @@ static const NSString * SinriAd_IN_SDK_AD_ID=@"SDK-Original";
     [self performSelectorOnMainThread:@selector(refreshSinriBanner) withObject:nil waitUntilDone:YES];
     
     NSLog(@"SinriAD received");
+    */
+    ///new start
+    
+    [[NSURLSession sharedSession]dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if(data){
+            NSDictionary * dict=[NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingMutableLeaves) error:&error];
+            
+            NSLog(@"Sinri Ad dict=%@",dict);
+            
+            if(dict){
+                NSString * mediaType=dict[@"media_type"];
+                NSString * url=dict[@"url"];
+                if(mediaType && [mediaType isEqual:@"text"]){
+                    _sinriBannerAdId=dict[@"ad_id"]?:@"";
+                    
+                    NSDictionary * ui=dict[@"ui"];
+                    
+                    _sinriBannerText=ui[@"text"]?:@"";
+                    
+                    NSString * textColorHex=ui[@"text_color"]?:@"FFFFFF";
+                    NSString * backgroundColorHex=ui[@"background_color"]?:@"000000";
+                    _sinriBannerForegroundColor=[SinriAdView getColorFromHexString:textColorHex];
+                    _sinriBannerBackgroundColor=[SinriAdView getColorFromHexString:backgroundColorHex];
+                    
+                    _sinriBannerTargetUrl=url;
+                }
+                else{
+                    [self performSelectorOnMainThread:@selector(onSinriBannerDidFailWithError:) withObject:[[NSError alloc]initWithDomain:@"SinriAd" code:500 userInfo:@{@"reason":@"data error"}] waitUntilDone:NO];
+                    return;
+                }
+            }else{
+                [self performSelectorOnMainThread:@selector(onSinriBannerDidFailWithError:) withObject:error waitUntilDone:NO];
+                return;
+            }
+        }else{
+            [self performSelectorOnMainThread:@selector(onSinriBannerDidFailWithError:) withObject:error waitUntilDone:NO];
+            return;
+        }
+        
+        //[self performSelectorOnMainThread:@selector(resetUI) withObject:nil waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(refreshSinriBanner) withObject:nil waitUntilDone:YES];
+        
+        NSLog(@"SinriAD received");
+    }];
+    
+    ///new over
+    
+    
+    
 }
 
 -(void)refreshSinriBanner{

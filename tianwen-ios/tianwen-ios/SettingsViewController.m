@@ -10,9 +10,12 @@
 #import "AliyunAccountModel.h"
 #import "AddAccountViewController.h"
 #import "AboutViewController.h"
+#import "TianwenSettings.h"
+#import <Crashlytics/Crashlytics.h>
 
 #define SETTING_TABLE_SECTION_INDEX_OF_ACCOUNTS 0
-#define SETTING_TABLE_SECTION_INDEX_OF_ABOUT 1
+#define SETTING_TABLE_SECTION_INDEX_OF_WARNING_VIEW_STYLE 1
+#define SETTING_TABLE_SECTION_INDEX_OF_ABOUT 2
 
 @interface SettingsViewController ()
 
@@ -73,14 +76,19 @@
  }
  */
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
+    return 3;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if(section==SETTING_TABLE_SECTION_INDEX_OF_ACCOUNTS){
         return [[AliyunAccountModel storedAccounts]count]+1;
-    }else{
+    }
+    else if(section==SETTING_TABLE_SECTION_INDEX_OF_WARNING_VIEW_STYLE){
+        return 2;
+    }
+    else if(section==SETTING_TABLE_SECTION_INDEX_OF_ABOUT){
         return 1;
     }
+    else return 0;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell * cell=[tableView dequeueReusableCellWithIdentifier:@"SettingsTableCell"];
@@ -102,9 +110,25 @@
                 [[cell detailTextLabel]setText:NSLocalizedString(@"Registered User",@"注册账户")];
             }
             [[cell textLabel]setText:aam.nickname];
-            [cell setAccessoryType:(UITableViewCellAccessoryNone)];
+            [cell setAccessoryType:(UITableViewCellAccessoryDetailButton)];
         }
-    }else if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_ABOUT){
+    }
+    else if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_WARNING_VIEW_STYLE){
+        [[cell detailTextLabel]setText:nil];
+        [cell setAccessoryType:(UITableViewCellAccessoryNone)];
+        if(indexPath.row==0){
+            [[cell textLabel]setText:NSLocalizedString(@"List Mode",@"以列表形式展示")];
+            if([[TianwenSettings warningDisplayStyle]isEqualToString:@"WarningDisplayStyleList"]){
+                [cell setAccessoryType:(UITableViewCellAccessoryCheckmark)];
+            }
+        }else if (indexPath.row==1){
+            [[cell textLabel]setText:NSLocalizedString(@"Tree Mode",@"以分组形式展示")];
+            if([[TianwenSettings warningDisplayStyle]isEqualToString:@"WarningDisplayStyleTree"]){
+                [cell setAccessoryType:(UITableViewCellAccessoryCheckmark)];
+            }
+        }
+    }
+    else if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_ABOUT){
         //readme
         [[cell textLabel]setText:NSLocalizedString(@"About Tianwen",@"应用信息")];
         [[cell detailTextLabel]setText:nil];
@@ -117,7 +141,11 @@
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     if(section==SETTING_TABLE_SECTION_INDEX_OF_ACCOUNTS){
         return NSLocalizedString(@"Account",@"账户");
-    }else if(section==SETTING_TABLE_SECTION_INDEX_OF_ABOUT){
+    }
+    else if(section==SETTING_TABLE_SECTION_INDEX_OF_WARNING_VIEW_STYLE){
+        return NSLocalizedString(@"Warning View Style",@"警报视图样式");
+    }
+    else if(section==SETTING_TABLE_SECTION_INDEX_OF_ABOUT){
         return NSLocalizedString(@"Information",@"信息");
     }
     
@@ -133,12 +161,30 @@
         }
         AddAccountViewController*aavc=[[AddAccountViewController alloc]initWithAliyunAccountModel:aam];
         [self.navigationController pushViewController:aavc animated:YES];
-    }else if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_ABOUT){
+    }
+    else if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_WARNING_VIEW_STYLE){
+        
+        NSString*original_wds=[TianwenSettings warningDisplayStyle];
+        
+        if([indexPath row]==0){
+            [TianwenSettings setWarningDisplayStyle:@"WarningDisplayStyleList"];
+        }else if ([indexPath row]==1){
+            [TianwenSettings setWarningDisplayStyle:@"WarningDisplayStyleTree"];
+        }
+        
+        if(![original_wds isEqualToString:[TianwenSettings warningDisplayStyle]]){
+            [Answers logCustomEventWithName:@"Change WarningDisplayStyle"customAttributes:@{@"target style":[TianwenSettings warningDisplayStyle]}];
+        }
+        
+        [tableView reloadData];
+    }
+    else if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_ABOUT){
         //about
         AboutViewController * avc=[[AboutViewController alloc]init];
         [[self navigationController]pushViewController:avc animated:YES];
     }
 }
+
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
     if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_ACCOUNTS){
@@ -174,6 +220,12 @@
             
         default:
             break;
+    }
+}
+
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
+    if([indexPath section]==SETTING_TABLE_SECTION_INDEX_OF_ACCOUNTS){
+        [self tableView:tableView didSelectRowAtIndexPath:indexPath];
     }
 }
 

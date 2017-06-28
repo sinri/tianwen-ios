@@ -22,10 +22,15 @@
         
         _cellStyle=UITableViewCellStyleDefault;
         _cellAccessoryType=UITableViewCellAccessoryNone;
+        _cellAccessoryView=nil;
+        _indentationLevel=0;
         
         _text=nil;
         _detailText=nil;
         _imageName=nil;
+        
+        _textWithAttributes=nil;
+        _detailTextWithAttributes=nil;
         
         _onSelect=nil;
     }

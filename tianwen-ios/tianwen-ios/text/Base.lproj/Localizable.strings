@@ -5,3 +5,12 @@
   Created by 倪 李俊 on 2017/6/23.
   Copyright © 2017年 com.sinri. All rights reserved.
 */
+
+//"CPU High"="CPU";
+//"Memory High"="Memory";
+//"Disk Full"="Disk";
+//"Data Delay"="Data Delay";
+//"Connection High"="Connection";
+//"IOPS High"="IOPS";
+//"Backend Abnormal"="Backend";
+//"OTHER ISSUE"="OTHER";

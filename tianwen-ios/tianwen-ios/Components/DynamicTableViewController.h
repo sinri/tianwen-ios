@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "DynamicTableSectionInfo.h"
+#import "DynamicTableCellInfoCompatibleCell.h"
 
 @interface DynamicTableViewController : UITableViewController
 
 @property NSMutableArray<DynamicTableSectionInfo *>* _Nonnull sections;
+
+- (__kindof DynamicTableCellInfoCompatibleCell*_Nonnull)createReusableCellWithStyle:(UITableViewCellStyle)cellStyle    reuseIdentifier:(NSString*_Nonnull)cellReusableId;
 
 -(BOOL)appendSection:(DynamicTableSectionInfo*_Nonnull)sectionInfo;
 -(DynamicTableSectionInfo* _Nullable)getSectionInfoWithKey:(NSString*_Nonnull)sectionKey;

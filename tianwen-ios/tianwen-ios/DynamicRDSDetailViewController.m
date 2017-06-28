@@ -9,6 +9,7 @@
 #import "DynamicRDSDetailViewController.h"
 #import "TianwenAPI.h"
 #import "TianwenHelper.h"
+#import "DynamicProgressTableViewCell.h"
 
 @interface DynamicRDSDetailViewController ()
 
@@ -56,21 +57,21 @@
         NSString * sectionKey=@"ErrorSection";
         
         DynamicTableSectionInfo * errorSectionInfo=[[DynamicTableSectionInfo alloc]initWithSectionKey:sectionKey];
-        [errorSectionInfo setTitle:sectionKey];
+        [errorSectionInfo setTitle:NSLocalizedString(@"Failed",@"失败")];
         [self appendSection:errorSectionInfo];
         
         DynamicTableCellInfo * cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Error" andCellReusableId:@"DynamicRDSDetailViewController_ErrorCell"];
-        [cellInfo setText:@"API Call Failed"];
+        [cellInfo setText:NSLocalizedString(@"API Call Failed",@"")];
         [self appendCell:cellInfo toSectionWithKey:sectionKey];
     }else if (![[dict objectForKey:@"code"]isEqualToString:@"OK"]){
         NSString * sectionKey=@"ErrorSection";
         
         DynamicTableSectionInfo * errorSectionInfo=[[DynamicTableSectionInfo alloc]initWithSectionKey:sectionKey];
-        [errorSectionInfo setTitle:sectionKey];
+        [errorSectionInfo setTitle:NSLocalizedString(@"Failed",@"失败")];
         [self appendSection:errorSectionInfo];
         
         DynamicTableCellInfo * cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Error" andCellReusableId:@"DynamicRDSDetailViewController_ErrorCell"];
-        [cellInfo setText:[NSString stringWithFormat: @"API Error: %@",[dict objectForKey:@"data"]]];
+        [cellInfo setText:[NSString stringWithFormat: NSLocalizedString(@"API Error: %@",@""),[dict objectForKey:@"data"]]];
         [self appendCell:cellInfo toSectionWithKey:sectionKey];
     }else{
         NSDictionary * rds=[[dict objectForKey:@"data"]objectForKey:@"rds"];
@@ -88,7 +89,7 @@
 
 -(void)makeSectionFromRDSDictionary:(NSDictionary*)rds{
     DynamicTableSectionInfo * rdsSectionInfo=[[DynamicTableSectionInfo alloc]initWithSectionKey:@"RDSSection"];
-    [rdsSectionInfo setTitle:@"RDS Info"];
+    [rdsSectionInfo setTitle:NSLocalizedString(@"RDS Info",@"")];
     
     DynamicTableCellInfo *cellInfo=nil;
     NSString * rds_cell_id=@"DynamicRDSDetailViewController_NormalCell";
@@ -98,92 +99,94 @@
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"DBInstanceId" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"DBInstanceId"];
+    [cellInfo setText:NSLocalizedString(@"DBInstanceId",@"")];
     [cellInfo setDetailText:[TianwenHelper hiddenForScreenshot:[NSString stringWithFormat:@"%@",[rds objectForKey:@"DBInstanceId"]]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"DBInstanceDescription" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"DBInstanceDescription"];
+    [cellInfo setText:NSLocalizedString(@"DBInstanceDescription",@"")];
     [cellInfo setDetailText:[TianwenHelper hiddenForScreenshot:[NSString stringWithFormat:@"%@",[rds objectForKey:@"DBInstanceDescription"]]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"DBInstanceType" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"DBInstanceType"];
-    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[rds objectForKey:@"DBInstanceType"]]];
+    [cellInfo setText:NSLocalizedString(@"DBInstanceType",@"")];
+    NSString * rds_instance_type=[NSString stringWithFormat:@"%@",[rds objectForKey:@"DBInstanceType"]];
+    [cellInfo setDetailText:NSLocalizedString(rds_instance_type,@"")];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"ConnectionString" andCellReusableId:@"RDSURLCELL"];
-    [cellInfo setCellStyle:(UITableViewCellStyleSubtitle)];
-    [cellInfo setText:@"ConnectionString"];
+    [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
+    [cellInfo setText:NSLocalizedString(@"ConnectionString",@"")];
     [cellInfo setDetailText:[TianwenHelper hiddenForScreenshot:[NSString stringWithFormat:@"%@",[rds objectForKey:@"ConnectionString"]]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Port" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"Port"];
+    [cellInfo setText:NSLocalizedString(@"Port",@"")];
     [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[rds objectForKey:@"Port"]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Engine" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"Engine"];
+    [cellInfo setText:NSLocalizedString(@"Engine",@"")];
     [cellInfo setDetailText:[NSString stringWithFormat:@"%@ %@",[rds objectForKey:@"Engine"],[rds objectForKey:@"EngineVersion"]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"RegionId" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"RegionId"];
-    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[rds objectForKey:@"RegionId"]]];
+    [cellInfo setText:NSLocalizedString(@"RegionId",@"")];
+    [cellInfo setDetailText:[AliyunAccountModel getDisplayNameForRegionId:[NSString stringWithFormat:@"%@",[rds objectForKey:@"RegionId"]]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"ZoneId" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"ZoneId"];
+    [cellInfo setText:NSLocalizedString(@"ZoneId",@"")];
     [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[rds objectForKey:@"ZoneId"]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"DBInstanceMemory" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"DBInstanceMemory"];
-    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[rds objectForKey:@"DBInstanceMemory"]]];
+    [cellInfo setText:NSLocalizedString(@"DBInstanceMemory",@"")];
+    [cellInfo setDetailText:[NSString stringWithFormat:@"%@ M",[rds objectForKey:@"DBInstanceMemory"]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"DBInstanceStorage" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"DBInstanceStorage"];
-    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[rds objectForKey:@"DBInstanceStorage"]]];
+    [cellInfo setText:NSLocalizedString(@"DBInstanceStorage",@"")];
+    [cellInfo setDetailText:[NSString stringWithFormat:@"%@ G",[rds objectForKey:@"DBInstanceStorage"]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"MaxIOPS" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"MaxIOPS"];
+    [cellInfo setText:NSLocalizedString(@"MaxIOPS",@"")];
     [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[rds objectForKey:@"MaxIOPS"]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"MaxConnections" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"MaxConnections"];
+    [cellInfo setText:NSLocalizedString(@"MaxConnections",@"")];
     [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[rds objectForKey:@"MaxConnections"]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"MaintainTime" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"MaintainTime"];
+    [cellInfo setText:NSLocalizedString(@"MaintainTime",@"")];
     [cellInfo setDetailText:[[NSString stringWithFormat:@"%@",[rds objectForKey:@"MaintainTime"]]stringByReplacingOccurrencesOfString:@"Z" withString:@""]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"AvailabilityValue" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"AvailabilityValue"];
+    [cellInfo setText:NSLocalizedString(@"AvailabilityValue",@"")];
     [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[rds objectForKey:@"AvailabilityValue"]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"LockMode" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"LockMode"];
-    [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[rds objectForKey:@"LockMode"]]];
+    [cellInfo setText:NSLocalizedString(@"LockMode",@"")];
+    NSString*rds_lock_mode=[NSString stringWithFormat:@"%@",[rds objectForKey:@"LockMode"]];
+    [cellInfo setDetailText:NSLocalizedString(rds_lock_mode, @"")];
     [rdsSectionInfo appendCell:cellInfo];
     
     if(![[NSString stringWithFormat:@"%@",[rds objectForKey:@"LockMode"]] isEqualToString:@"Unlock"]){
@@ -191,20 +194,20 @@
         
         cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"LockReason" andCellReusableId:rds_cell_id];
         [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-        [cellInfo setText:@"LockReason"];
+        [cellInfo setText:NSLocalizedString(@"LockReason",@"")];
         [cellInfo setDetailText:[NSString stringWithFormat:@"%@",lock_reason]];
         [rdsSectionInfo appendCell:cellInfo];
     }
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"CreationTime" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"CreationTime"];
+    [cellInfo setText:NSLocalizedString(@"CreationTime",@"")];
     [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[TianwenHelper localizedDateStringFromISO8601String:[rds objectForKey:@"CreationTime"]]]];
     [rdsSectionInfo appendCell:cellInfo];
     
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"ExpireTime" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-    [cellInfo setText:@"ExpireTime"];
+    [cellInfo setText:NSLocalizedString(@"ExpireTime",@"")];
     [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[TianwenHelper localizedDateStringFromISO8601String:[rds objectForKey:@"ExpireTime"]]]];
     [rdsSectionInfo appendCell:cellInfo];
     
@@ -216,7 +219,7 @@
        && [[rds objectForKey:@"ReadOnlyDBInstanceIds"]count]
        ){
         DynamicTableSectionInfo * roSectionInfo = [[DynamicTableSectionInfo alloc]initWithSectionKey:@"ReadOnlyDBInstanceIds"];
-        [roSectionInfo setTitle:@"ReadOnly Instances"];
+        [roSectionInfo setTitle:NSLocalizedString(@"ReadOnly Instances",@"")];
         
         for (NSUInteger i=0; i<[[rds objectForKey:@"ReadOnlyDBInstanceIds"]count]; i++) {
             NSString*roId=[[rds objectForKey:@"ReadOnlyDBInstanceIds"]objectAtIndex:i];
@@ -239,7 +242,7 @@
 }
 -(void)makeSectionFromCMSDictionary:(NSDictionary*)cms{
     DynamicTableSectionInfo * cmsSectionInfo=[[DynamicTableSectionInfo alloc]initWithSectionKey:@"CMSSection"];
-    [cmsSectionInfo setTitle:@"Current Status"];
+    [cmsSectionInfo setTitle:NSLocalizedString(@"Current Status",@"")];
     
     DynamicTableCellInfo *cellInfo=nil;
     NSString * cms_cell_id=@"DynamicRDSDetailViewController_NormalCell";
@@ -249,12 +252,19 @@
         if([cpu isKindOfClass:[NSDictionary class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"CPU" andCellReusableId:cms_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"CPU Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"CPU Usage Average",@"")];
             [cellInfo setDetailText:[NSString stringWithFormat:@"%@%%",[cpu objectForKey:@"Average"]]];
+            [cellInfo setAdditionCellSettingsBlock:^(__kindof DynamicTableCellInfoCompatibleCell* _Nonnull cell){
+                DynamicProgressTableViewCell * dptvc=(DynamicProgressTableViewCell*)cell;
+                CGFloat progress=[[NSString stringWithFormat:@"%@",[cpu objectForKey:@"Average"]]floatValue]/100.0;
+                NSLog(@"progress: %f",progress);
+                UIColor * color=[TianwenHelper colorForProgressRate:progress];
+                [dptvc setProgress:progress andColor:color];
+            }];
         }else if([cpu isKindOfClass:[NSString class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"CPU-ERROR" andCellReusableId:err_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"CPU Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"CPU Usage Average",@"")];
             [cellInfo setDetailText:cpu];
         }
         [cmsSectionInfo appendCell:cellInfo];
@@ -264,12 +274,19 @@
         if([memory isKindOfClass:[NSDictionary class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Memory" andCellReusableId:cms_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"Memory Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"Memory Usage Average",@"")];
             [cellInfo setDetailText:[NSString stringWithFormat:@"%@%%",[memory objectForKey:@"Average"]]];
+            [cellInfo setAdditionCellSettingsBlock:^(__kindof DynamicTableCellInfoCompatibleCell* _Nonnull cell){
+                DynamicProgressTableViewCell * dptvc=(DynamicProgressTableViewCell*)cell;
+                CGFloat progress=[[NSString stringWithFormat:@"%@",[memory objectForKey:@"Average"]]floatValue]/100.0;
+                NSLog(@"progress: %f",progress);
+                UIColor * color=[TianwenHelper colorForProgressRate:progress];
+                [dptvc setProgress:progress andColor:color];
+            }];
         }else if([memory isKindOfClass:[NSString class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Memory-ERROR" andCellReusableId:err_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"Memory Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"Memory Usage Average",@"")];
             [cellInfo setDetailText:memory];
         }
         [cmsSectionInfo appendCell:cellInfo];
@@ -279,12 +296,19 @@
         if([disk isKindOfClass:[NSDictionary class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Disk" andCellReusableId:cms_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"Disk Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"Disk Usage Average",@"")];
             [cellInfo setDetailText:[NSString stringWithFormat:@"%@%%",[disk objectForKey:@"Average"]]];
+            [cellInfo setAdditionCellSettingsBlock:^(__kindof DynamicTableCellInfoCompatibleCell* _Nonnull cell){
+                DynamicProgressTableViewCell * dptvc=(DynamicProgressTableViewCell*)cell;
+                CGFloat progress=[[NSString stringWithFormat:@"%@",[disk objectForKey:@"Average"]]floatValue]/100.0;
+                NSLog(@"progress: %f",progress);
+                UIColor * color=[TianwenHelper colorForProgressRate:progress];
+                [dptvc setProgress:progress andColor:color];
+            }];
         }else if([disk isKindOfClass:[NSString class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Disk-ERROR" andCellReusableId:err_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"Disk Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"Disk Usage Average",@"")];
             [cellInfo setDetailText:disk];
         }
         [cmsSectionInfo appendCell:cellInfo];
@@ -294,13 +318,20 @@
         if([connection isKindOfClass:[NSDictionary class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Connection" andCellReusableId:cms_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"Connection Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"Connection Usage Average",@"")];
             [cellInfo setDetailText:[NSString stringWithFormat:@"%@%%",[connection objectForKey:@"Average"]]];
+            [cellInfo setAdditionCellSettingsBlock:^(__kindof DynamicTableCellInfoCompatibleCell* _Nonnull cell){
+                DynamicProgressTableViewCell * dptvc=(DynamicProgressTableViewCell*)cell;
+                CGFloat progress=[[NSString stringWithFormat:@"%@",[connection objectForKey:@"Average"]]floatValue]/100.0;
+                NSLog(@"progress: %f",progress);
+                UIColor * color=[TianwenHelper colorForProgressRate:progress];
+                [dptvc setProgress:progress andColor:color];
+            }];
         }else if([connection isKindOfClass:[NSString class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Connection-ERROR" andCellReusableId:err_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
             [cellInfo setDetailText:connection];
-            [cellInfo setText:@"Connection Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"Connection Usage Average",@"")];
         }
         [cmsSectionInfo appendCell:cellInfo];
     }
@@ -309,27 +340,34 @@
         if([iops isKindOfClass:[NSDictionary class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"IOPS" andCellReusableId:cms_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"IOPS Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"IOPS Usage Average",@"")];
             [cellInfo setDetailText:[NSString stringWithFormat:@"%@%%",[iops objectForKey:@"Average"]]];
+            [cellInfo setAdditionCellSettingsBlock:^(__kindof DynamicTableCellInfoCompatibleCell* _Nonnull cell){
+                DynamicProgressTableViewCell * dptvc=(DynamicProgressTableViewCell*)cell;
+                CGFloat progress=[[NSString stringWithFormat:@"%@",[iops objectForKey:@"Average"]]floatValue]/100.0;
+                NSLog(@"progress: %f",progress);
+                UIColor * color=[TianwenHelper colorForProgressRate:progress];
+                [dptvc setProgress:progress andColor:color];
+            }];
         }else if([iops isKindOfClass:[NSString class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"IOPS-ERROR" andCellReusableId:err_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"IOPS Usage Average"];
+            [cellInfo setText:NSLocalizedString(@"IOPS Usage Average",@"")];
             [cellInfo setDetailText:iops];
         }
         [cmsSectionInfo appendCell:cellInfo];
     }
-    if([_RDSType isEqualToString:@"ReadOnly"]){
+    if([_RDSType isEqualToString:@"Readonly"]){
         id delay = [cms objectForKey:@"delay"];
         if([delay isKindOfClass:[NSDictionary class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Delay" andCellReusableId:cms_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"Data Delay Average"];
+            [cellInfo setText:NSLocalizedString(@"Data Delay Average",@"")];
             [cellInfo setDetailText:[NSString stringWithFormat:@"%@ s",[delay objectForKey:@"Average"]]];
         }else if([delay isKindOfClass:[NSString class]]){
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Delay-ERROR" andCellReusableId:err_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
-            [cellInfo setText:@"Data Delay Average"];
+            [cellInfo setText:NSLocalizedString(@"Data Delay Average",@"")];
             [cellInfo setDetailText:delay];
         }
         [cmsSectionInfo appendCell:cellInfo];
@@ -366,5 +404,9 @@
  // Pass the selected object to the new view controller.
  }
  */
+
+-(UITableViewCell *)createReusableCellWithStyle:(UITableViewCellStyle)cellStyle reuseIdentifier:(NSString *)cellReusableId{
+    return [[DynamicProgressTableViewCell alloc]initWithStyle:cellStyle reuseIdentifier:cellReusableId];
+}
 
 @end

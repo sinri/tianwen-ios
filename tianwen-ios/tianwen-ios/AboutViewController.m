@@ -8,6 +8,8 @@
 
 #import "AboutViewController.h"
 
+#import <Crashlytics/Crashlytics.h>
+
 @interface AboutViewController ()
 
 @end
@@ -43,6 +45,8 @@
 }
 -(void)webViewDidFinishLoad:(UIWebView *)webView{
     self.navigationItem.rightBarButtonItem=nil;
+    
+    [Answers logCustomEventWithName:@"Display Readme" customAttributes:@{}];
 }
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
     UIBarButtonItem * refrsshButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:(UIBarButtonSystemItemRefresh) target:self action:@selector(refreshAboutPage:)];

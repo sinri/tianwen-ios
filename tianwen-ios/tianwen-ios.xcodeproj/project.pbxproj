@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F00947C1F00DAAA001FE414 /* DynamicProgressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F00947B1F00DAAA001FE414 /* DynamicProgressTableViewCell.m */; };
+		2F0094831F00F16B001FE414 /* DynamicTableCellInfoCompatibleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0094821F00F16B001FE414 /* DynamicTableCellInfoCompatibleCell.m */; };
+		2F0094861F0110C9001FE414 /* TianwenSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0094851F0110C9001FE414 /* TianwenSettings.m */; };
+		2F0094891F035ABF001FE414 /* DynamicSLBDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0094881F035ABF001FE414 /* DynamicSLBDetailViewController.m */; };
 		2F422C4A1EF8BF1A00AB0C3E /* TianwenWarningInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422C491EF8BF1A00AB0C3E /* TianwenWarningInfoView.m */; };
 		2F422C4D1EF8D04400AB0C3E /* TianwenMultiWarningInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422C4C1EF8D04400AB0C3E /* TianwenMultiWarningInfoView.m */; };
 		2F422C7D1EF904D000AB0C3E /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F422C511EF904D000AB0C3E /* MJRefreshAutoFooter.m */; };
@@ -60,6 +64,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F00947A1F00DAAA001FE414 /* DynamicProgressTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DynamicProgressTableViewCell.h; path = Components/DynamicProgressTableViewCell.h; sourceTree = "<group>"; };
+		2F00947B1F00DAAA001FE414 /* DynamicProgressTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DynamicProgressTableViewCell.m; path = Components/DynamicProgressTableViewCell.m; sourceTree = "<group>"; };
+		2F0094811F00F16B001FE414 /* DynamicTableCellInfoCompatibleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DynamicTableCellInfoCompatibleCell.h; path = Components/DynamicTableCellInfoCompatibleCell.h; sourceTree = "<group>"; };
+		2F0094821F00F16B001FE414 /* DynamicTableCellInfoCompatibleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DynamicTableCellInfoCompatibleCell.m; path = Components/DynamicTableCellInfoCompatibleCell.m; sourceTree = "<group>"; };
+		2F0094841F0110C9001FE414 /* TianwenSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TianwenSettings.h; path = Model/TianwenSettings.h; sourceTree = "<group>"; };
+		2F0094851F0110C9001FE414 /* TianwenSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TianwenSettings.m; path = Model/TianwenSettings.m; sourceTree = "<group>"; };
+		2F0094871F035ABF001FE414 /* DynamicSLBDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicSLBDetailViewController.h; sourceTree = "<group>"; };
+		2F0094881F035ABF001FE414 /* DynamicSLBDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DynamicSLBDetailViewController.m; sourceTree = "<group>"; };
 		2F422C481EF8BF1A00AB0C3E /* TianwenWarningInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TianwenWarningInfoView.h; path = Components/TianwenWarningInfoView.h; sourceTree = "<group>"; };
 		2F422C491EF8BF1A00AB0C3E /* TianwenWarningInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TianwenWarningInfoView.m; path = Components/TianwenWarningInfoView.m; sourceTree = "<group>"; };
 		2F422C4B1EF8D04400AB0C3E /* TianwenMultiWarningInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TianwenMultiWarningInfoView.h; path = Components/TianwenMultiWarningInfoView.h; sourceTree = "<group>"; };
@@ -277,6 +289,8 @@
 				2F422CAC1EFB9A6F00AB0C3E /* DynamicRDSDetailViewController.m */,
 				2F422CAE1EFBC67700AB0C3E /* DynamicREDISDetailViewController.h */,
 				2F422CAF1EFBC67700AB0C3E /* DynamicREDISDetailViewController.m */,
+				2F0094871F035ABF001FE414 /* DynamicSLBDetailViewController.h */,
+				2F0094881F035ABF001FE414 /* DynamicSLBDetailViewController.m */,
 			);
 			name = DetailController;
 			sourceTree = "<group>";
@@ -290,6 +304,10 @@
 				2F422CA21EFB6BA600AB0C3E /* DynamicTableSectionInfo.m */,
 				2F422CA41EFB6BBE00AB0C3E /* DynamicTableCellInfo.h */,
 				2F422CA51EFB6BBE00AB0C3E /* DynamicTableCellInfo.m */,
+				2F00947A1F00DAAA001FE414 /* DynamicProgressTableViewCell.h */,
+				2F00947B1F00DAAA001FE414 /* DynamicProgressTableViewCell.m */,
+				2F0094811F00F16B001FE414 /* DynamicTableCellInfoCompatibleCell.h */,
+				2F0094821F00F16B001FE414 /* DynamicTableCellInfoCompatibleCell.m */,
 			);
 			name = DynamicTable;
 			sourceTree = "<group>";
@@ -380,6 +398,8 @@
 				2F9FFE161EF7620C0042641C /* APIClient.m */,
 				2F9FFE181EF795170042641C /* TianwenAPI.h */,
 				2F9FFE191EF795170042641C /* TianwenAPI.m */,
+				2F0094841F0110C9001FE414 /* TianwenSettings.h */,
+				2F0094851F0110C9001FE414 /* TianwenSettings.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -515,6 +535,7 @@
 				2F422CB31EFC10A000AB0C3E /* DynamicTianwenWarningView.m in Sources */,
 				2F422C861EF904D000AB0C3E /* MJRefreshBackNormalFooter.m in Sources */,
 				2F422C801EF904D000AB0C3E /* MJRefreshFooter.m in Sources */,
+				2F0094891F035ABF001FE414 /* DynamicSLBDetailViewController.m in Sources */,
 				2F422C8C1EF904D000AB0C3E /* MJRefreshConst.m in Sources */,
 				2F422C941EFA146A00AB0C3E /* AccountProductViewController.m in Sources */,
 				2F9FFDF21EF678F20042641C /* AppDelegate.m in Sources */,
@@ -540,11 +561,14 @@
 				2F422C841EF904D000AB0C3E /* MJRefreshAutoStateFooter.m in Sources */,
 				2F422C8A1EF904D000AB0C3E /* MJRefreshStateHeader.m in Sources */,
 				2F9FFE061EF67F1C0042641C /* RootViewController.m in Sources */,
+				2F00947C1F00DAAA001FE414 /* DynamicProgressTableViewCell.m in Sources */,
+				2F0094831F00F16B001FE414 /* DynamicTableCellInfoCompatibleCell.m in Sources */,
 				2F422C811EF904D000AB0C3E /* MJRefreshHeader.m in Sources */,
 				2F422C871EF904D000AB0C3E /* MJRefreshBackStateFooter.m in Sources */,
 				2F9FFE1E1EF79AAD0042641C /* AliyunRegionSwitchGroup.m in Sources */,
 				2F422C7D1EF904D000AB0C3E /* MJRefreshAutoFooter.m in Sources */,
 				2F9FFDEF1EF678F20042641C /* main.m in Sources */,
+				2F0094861F0110C9001FE414 /* TianwenSettings.m in Sources */,
 				2F422C4D1EF8D04400AB0C3E /* TianwenMultiWarningInfoView.m in Sources */,
 				2F9FFE171EF7620C0042641C /* APIClient.m in Sources */,
 				2F422C8E1EF904D000AB0C3E /* UIScrollView+MJExtension.m in Sources */,
