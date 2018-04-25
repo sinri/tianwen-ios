@@ -19,8 +19,11 @@
 #import "DynamicREDISDetailViewController.h"
 #import "DynamicSLBDetailViewController.h"
 
+#import "AddAccountViewController.h"
+
 @interface WelcomeViewController ()
 @property NSString * currentWarningStyle;
+@property NSInteger currentAccountCount;
 @end
 
 @implementation WelcomeViewController
@@ -41,10 +44,14 @@
     
     _currentWarningStyle=[TianwenSettings warningDisplayStyle];
     
+    NSArray*accounts=[[AliyunAccountModel storedAccounts] allValues];
+    
     _warningReportView=[[DynamicTianwenWarningView alloc]initWithFrame:(CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height))];
     [_warningReportView setDelegate:self];
-    [_warningReportView loadDataForAccounts:[[AliyunAccountModel storedAccounts] allValues]];
+    [_warningReportView loadDataForAccounts:accounts];
     [self.view addSubview:_warningReportView];
+    
+    _currentAccountCount=[accounts count];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -52,8 +59,15 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    if(![_currentWarningStyle isEqualToString:[TianwenSettings warningDisplayStyle]]){
+    NSLog(@"appear: old account count=%ld",(long)_currentAccountCount);
+    NSLog(@"appear: now account count=%ld",(long)[[[AliyunAccountModel storedAccounts] allValues] count]);
+    if(
+       (![_currentWarningStyle isEqualToString:[TianwenSettings warningDisplayStyle]])
+       || (_currentAccountCount!=[[[AliyunAccountModel storedAccounts] allValues] count])
+    ){
+        NSLog(@"appear reloading");
         [_warningReportView reloadData];
+        _currentAccountCount=[[[AliyunAccountModel storedAccounts] allValues] count];
     }
 }
 
@@ -102,6 +116,12 @@
         [[self navigationController]pushViewController:vc animated:YES];
     }
 
+}
+
+-(void)onAddAccountButton{
+    NSLog(@"current account count=%ld",(long)_currentAccountCount);
+    AddAccountViewController * aavc=[[AddAccountViewController alloc]initWithAliyunAccountModel:nil];
+    [self.navigationController pushViewController:aavc animated:YES];
 }
 
 @end

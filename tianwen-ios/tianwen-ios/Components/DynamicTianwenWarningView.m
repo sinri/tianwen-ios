@@ -20,6 +20,12 @@
 
 #import <Crashlytics/Crashlytics.h>
 
+@interface DynamicTianwenWarningView ()
+
+@property UIButton * addAccountBtn;
+
+@end
+
 @implementation DynamicTianwenWarningView
 
 -(instancetype)initWithFrame:(CGRect)frame{
@@ -78,25 +84,45 @@
     _sections=[@[] mutableCopy];
     [_warningTable reloadData];
     
-    for(NSUInteger i=0;i<[accounts count];i++){
-        AliyunAccountModel *account=[accounts objectAtIndex:i];
-        DynamicTableSectionInfo * sectionInfo=[[DynamicTableSectionInfo alloc]initWithSectionKey:[account computeAliyunAccountModelKey]];
-        [sectionInfo setTitle:[account nickname]];
+    if([accounts count]>0){
         
-        DynamicTableCellInfo * cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"LoadingCell" andCellReusableId:@"LoadingCell"];
-        [cellInfo setText:NSLocalizedString(@"Loading",@"加载中")];
-        [cellInfo setImageName:@"LOADING"];
+        if(_addAccountBtn){
+            [_addAccountBtn removeFromSuperview];
+            _addAccountBtn=nil;
+        }
         
-        [sectionInfo appendCell:cellInfo];
+        for(NSUInteger i=0;i<[accounts count];i++){
+            AliyunAccountModel *account=[accounts objectAtIndex:i];
+            DynamicTableSectionInfo * sectionInfo=[[DynamicTableSectionInfo alloc]initWithSectionKey:[account computeAliyunAccountModelKey]];
+            [sectionInfo setTitle:[account nickname]];
+            
+            DynamicTableCellInfo * cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"LoadingCell" andCellReusableId:@"LoadingCell"];
+            [cellInfo setText:NSLocalizedString(@"Loading",@"加载中")];
+            [cellInfo setImageName:@"LOADING"];
+            
+            [sectionInfo appendCell:cellInfo];
+            
+            [_sections addObject:sectionInfo];
+        }
         
-        [_sections addObject:sectionInfo];
+        [_warningTable reloadData];
+        
+        for(NSUInteger i=0;i<[accounts count];i++){
+            [self performSelectorInBackground:@selector(loadWarningInfoInBackgroundForAccount:) withObject:[accounts objectAtIndex:i]];
+        }
+    }else{
+        _addAccountBtn=[UIButton buttonWithType:(UIButtonTypeRoundedRect)];
+        [_addAccountBtn setFrame:(CGRectMake(50, 200, self.frame.size.width-100, 50))];
+        [[_addAccountBtn layer]setBackgroundColor:[UIColor whiteColor].CGColor];
+        [[_addAccountBtn layer]setCornerRadius:10];
+        [_addAccountBtn setTitle:NSLocalizedString(@"Add Account", @"") forState:(UIControlStateNormal)];
+        [_addAccountBtn addTarget:self action:@selector(quickAddAccount:) forControlEvents:(UIControlEventTouchUpInside)];
+        [self insertSubview:_addAccountBtn aboveSubview:_warningTable];
     }
-    
-    [_warningTable reloadData];
-    
-    for(NSUInteger i=0;i<[accounts count];i++){
-        [self performSelectorInBackground:@selector(loadWarningInfoInBackgroundForAccount:) withObject:[accounts objectAtIndex:i]];
-    }
+}
+
+-(void)quickAddAccount:(id)sender{
+    [_delegate onAddAccountButton];
 }
 
 -(void)loadWarningInfoInBackgroundForAccount:(AliyunAccountModel*)account{
@@ -132,8 +158,17 @@
         [sectionInfo appendCell:cellInfo];
     }else if(![[dict objectForKey:@"code"] isEqualToString:@"OK"]){
         DynamicTableCellInfo * cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"ErrorCell" andCellReusableId:@"ErrorCell"];
-        [cellInfo setText:[NSString stringWithFormat:@"%@",[dict objectForKey:@"data"]]];
+        [cellInfo setText:NSLocalizedString(@"Load Failed", @"")];
         [cellInfo setImageName:@"OTHER ISSUE"];
+        
+        __weak DynamicTianwenWarningView*weakSelf=self;
+        [cellInfo setOnSelect:^(DynamicTableCellInfo* _Nonnull cellInfo, id _Nullable otherInfo){
+            UIAlertController * ac=[UIAlertController alertControllerWithTitle:NSLocalizedString(@"Load Failed", @"") message:[NSString stringWithFormat:@"%@",[dict objectForKey:@"data"]] preferredStyle:(UIAlertControllerStyleAlert)];
+            [ac addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"") style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+                //
+            }]];
+            [weakSelf.delegate presentViewController:ac animated:YES completion:nil];
+        }];
         
         [sectionInfo appendCell:cellInfo];
     }else{
@@ -156,11 +191,12 @@
                                       ];
                     NSString * issue_type_name=[warning objectForKey:@"issue_type"];
                     issue_type_name=NSLocalizedString(issue_type_name, @"");
+                    NSString * unit_string=[warning objectForKey:@"issue_fact_unit"];
                     NSString * detail=[NSString stringWithFormat:
                                        @"%@: %@ %@",
                                        issue_type_name,//[warning objectForKey:@"issue_type"],
                                        [warning objectForKey:@"issue_fact"],
-                                       [warning objectForKey:@"issue_fact_unit"]
+                                       NSLocalizedString(unit_string, @"")
                                        ];
                     if(
                        [warning objectForKey:@"sub_device"]
@@ -256,10 +292,11 @@
                             
                             NSString * title=[NSString stringWithFormat:@"%@",[warning objectForKey:@"issue_type"]];
                             title=NSLocalizedString(title,@"");
+                            NSString * unit_string=[warning objectForKey:@"issue_fact_unit"];
                             NSString * detail=[NSString stringWithFormat:
                                                @"%@ %@",
                                                [warning objectForKey:@"issue_fact"],
-                                               [warning objectForKey:@"issue_fact_unit"]
+                                               NSLocalizedString(unit_string, @"")
                                                ];
                             if(
                                [warning objectForKey:@"sub_device"]

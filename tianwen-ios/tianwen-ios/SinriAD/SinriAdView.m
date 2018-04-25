@@ -101,7 +101,12 @@ static const NSString * SinriAd_IN_SDK_AD_ID=@"SDK-Original";
     [gadBanner setDelegate:self];
     
     // 启动一般性请求并在其中加载广告。
-    [gadBanner loadRequest:[GADRequest request]];
+    GADRequest*request=[GADRequest request];
+#ifdef DEBUG
+    //request.testDevices = @[ @"7b6f67fd81105834d99ab03fc23075fa" ];
+#endif
+    [gadBanner loadRequest:request];
+    //[gadBanner performSelectorInBackground:@selector(loadRequest:) withObject:[GADRequest request]];
 }
 
 -(void)buildBanner{

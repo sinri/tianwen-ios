@@ -109,6 +109,13 @@
     [cellInfo setDetailText:[TianwenHelper hiddenForScreenshot:[NSString stringWithFormat:@"%@",[rds objectForKey:@"DBInstanceDescription"]]]];
     [rdsSectionInfo appendCell:cellInfo];
     
+    cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"DBInstanceClass" andCellReusableId:rds_cell_id];
+    [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
+    [cellInfo setText:NSLocalizedString(@"DBInstanceClass",@"")];
+    NSString * rds_instance_class=[NSString stringWithFormat:@"%@",[rds objectForKey:@"DBInstanceClass"]];
+    [cellInfo setDetailText:NSLocalizedString(rds_instance_class,@"")];
+    [rdsSectionInfo appendCell:cellInfo];
+    
     cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"DBInstanceType" andCellReusableId:rds_cell_id];
     [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
     [cellInfo setText:NSLocalizedString(@"DBInstanceType",@"")];
@@ -297,7 +304,7 @@
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Disk" andCellReusableId:cms_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
             [cellInfo setText:NSLocalizedString(@"Disk Usage Average",@"")];
-            [cellInfo setDetailText:[NSString stringWithFormat:@"%@%%",[disk objectForKey:@"Average"]]];
+            [cellInfo setDetailText:[NSString stringWithFormat:@"(%@ %@ GB) %@%%",NSLocalizedString(@"Left", @"可用"),[disk objectForKey:@"freeSpace"],[disk objectForKey:@"Average"]]];
             [cellInfo setAdditionCellSettingsBlock:^(__kindof DynamicTableCellInfoCompatibleCell* _Nonnull cell){
                 DynamicProgressTableViewCell * dptvc=(DynamicProgressTableViewCell*)cell;
                 CGFloat progress=[[NSString stringWithFormat:@"%@",[disk objectForKey:@"Average"]]floatValue]/100.0;

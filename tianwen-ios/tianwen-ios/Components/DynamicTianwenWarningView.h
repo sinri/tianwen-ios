@@ -15,6 +15,8 @@
 
 @protocol DynamicTianwenWarningViewDelegate <NSObject>
 
+-(void)onAddAccountButton;
+
 @optional
 -(NSArray<AliyunAccountModel*>*)reloadAccountsForDynamicTianwenWarningView:(DynamicTianwenWarningView*)target;
 @optional
@@ -25,7 +27,7 @@
 @interface DynamicTianwenWarningView : UIView
 <UITableViewDelegate,UITableViewDataSource>
 
-@property NSObject<DynamicTianwenWarningViewDelegate> * delegate;
+@property UIViewController<DynamicTianwenWarningViewDelegate> * delegate;
 
 @property UITableView * warningTable;
 

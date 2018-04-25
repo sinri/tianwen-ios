@@ -152,7 +152,7 @@
         cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"Bandwidth" andCellReusableId:normal_cell_id];
         [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
         [cellInfo setText:NSLocalizedString(@"Bandwidth", @"")];
-        [cellInfo setDetailText:[NSString stringWithFormat:@"%@ M",[slb objectForKey:@"Bandwidth"]]];
+        [cellInfo setDetailText:[NSString stringWithFormat:@"%@",[slb objectForKey:@"Bandwidth"]]];
         
         [slbSection appendCell:cellInfo];
     }
@@ -209,7 +209,7 @@
     
     if([slb objectForKey:@"ListenerPortsAndProtocol"]
        && (
-       [[slb objectForKey:@"ListenerPortsAndProtocol"] isKindOfClass:[NSNull class]]
+           [[slb objectForKey:@"ListenerPortsAndProtocol"] isKindOfClass:[NSNull class]]
            || [[[slb objectForKey:@"ListenerPortsAndProtocol"] allKeys]count]<=0
            )
        ){
@@ -238,7 +238,11 @@
     if([slb objectForKey:@"BackendServers"]
        && (
            [[slb objectForKey:@"BackendServers"] isKindOfClass:[NSNull class]]
-           || [[[slb objectForKey:@"BackendServers"] allKeys]count]<=0
+           || (
+               ([[slb objectForKey:@"BackendServers"] isKindOfClass:[NSArray class]] && [[slb objectForKey:@"BackendServers"] count]<=0)
+               ||
+               ([[slb objectForKey:@"BackendServers"] isKindOfClass:[NSDictionary class]] && [[[slb objectForKey:@"BackendServers"] allKeys]count]<=0)
+               )
            )
        ){
         cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:@"NO_SERVER" andCellReusableId:error_cell_id];
@@ -265,7 +269,7 @@
             [serverSection appendCell:cellInfo];
         }
     }
-
+    
     [self appendSection:serverSection];
     
     //NSLog(@"makeSectionFromSLBDictionary: %@",slb);
@@ -324,14 +328,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 
 

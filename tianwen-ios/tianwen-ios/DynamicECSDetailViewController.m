@@ -250,7 +250,7 @@
             cellInfo=[[DynamicTableCellInfo alloc]initWithCellKey:[NSString stringWithFormat:@"DISK-%lu",(unsigned long)i] andCellReusableId:cms_cell_id];
             [cellInfo setCellStyle:(UITableViewCellStyleValue1)];
             [cellInfo setText:[NSString stringWithFormat:@"%@",[diskPart objectForKey:@"diskname"]]];
-            [cellInfo setDetailText:[NSString stringWithFormat:@"%@%%",[diskPart objectForKey:@"Average"]]];
+            [cellInfo setDetailText:[NSString stringWithFormat:@"(%@ %@ GB) %@%%",NSLocalizedString(@"Left", @"可用"),[diskPart objectForKey:@"freeSpace"],[diskPart objectForKey:@"Average"]]];
             [cellInfo setAdditionCellSettingsBlock:^(__kindof DynamicTableCellInfoCompatibleCell* _Nonnull cell){
                 DynamicProgressTableViewCell * dptvc=(DynamicProgressTableViewCell*)cell;
                 CGFloat progress=[[NSString stringWithFormat:@"%@",[diskPart objectForKey:@"Average"]]floatValue]/100.0;

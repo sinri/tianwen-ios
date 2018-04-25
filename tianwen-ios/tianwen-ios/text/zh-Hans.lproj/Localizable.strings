@@ -68,6 +68,7 @@
 "IOPS High"="高读写频率";
 "Backend Abnormal"="后端异常";
 "OTHER ISSUE"="其他故障";
+"Soon Expire"="即将到期";
 
 //InstanceAttributesType
 "InstanceId"="实例ID";
@@ -217,8 +218,12 @@
 
 "Available"="可用";
 "Weight"="权重";
+"Free"="可用";
+"Left"="残余";
 
 "RDS Info"="RDS 信息";
 "ECS Info"="ECS 信息";
 "REDIS Info"="REDIS 信息";
 "SLB Info"="SLB 信息";
+
+"Day"="天";
